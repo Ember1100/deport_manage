@@ -19,8 +19,14 @@ public class GoodsController {
     @RequestMapping("goods")
     @ResponseBody
     public Result getAllGoods(){
-        List<Goods> list =goodsService.getAllGoods();
-        return Result.success(list);
+       try{
+           List<Goods> list =goodsService.getAllGoods();
+           return Result.success(list);
+       }catch (Exception e) {
+           e.printStackTrace();
+       }
+       return Result.fail("服务器出错");
     }
+
 
 }

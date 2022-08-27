@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class Goods implements Serializable {
     private Integer id;
 
-    private String goodsname;
+    private String goodsName;
 
     private String context;
 

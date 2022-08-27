@@ -17,8 +17,13 @@ public class RecordController {
     @RequestMapping("record")
     @ResponseBody
     public Result getAllRecord(){
-        List<Record> list =recordService.getAllRecord();
-        return Result.success(list);
+       try{
+           List<Record> list =recordService.getAllRecord();
+           return Result.success(list);
+       }catch (Exception e){
+           e.printStackTrace();
+       }
+       return Result.fail("服务器出错");
     }
 
 }
