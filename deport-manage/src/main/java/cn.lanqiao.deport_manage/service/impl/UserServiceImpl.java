@@ -3,6 +3,8 @@ package cn.lanqiao.deport_manage.service.impl;
 import cn.lanqiao.deport_manage.entity.User;
 import cn.lanqiao.deport_manage.mapper.UserMapper;
 import cn.lanqiao.deport_manage.service.UserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,8 @@ public class UserServiceImpl implements UserService {
         list = userMapper.getAllUser();
         return list;
     }
+
+
 
     @Override
     public int isLogin(Map<String,String> map) {
@@ -39,6 +43,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public User searchUser(String username) {
         return userMapper.getUserWithName(username);
+    }
+
+    @Override
+    public PageInfo<User> getUserPage(int pageNo, int pageSize) {
+        PageHelper.startPage(pageNo,pageSize);
+        List<User> user = userMapper.getAllUser();
+        PageInfo<User> pageInfo = new PageInfo<>(user);
+        return pageInfo;
     }
 }
 

@@ -3,6 +3,7 @@ package cn.lanqiao.deport_manage.web;
 import cn.lanqiao.deport_manage.entity.Goods;
 import cn.lanqiao.deport_manage.service.GoodsService;
 import cn.lanqiao.deport_manage.utils.Result;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,5 +29,16 @@ public class GoodsController {
        return Result.fail("服务器出错");
     }
 
+    @RequestMapping("/goodsGetPage")
+    public Result getPage(@RequestParam(defaultValue = "1") int pageNo,
+                          @RequestParam(defaultValue = "5") int pageSize) {
+        try {
+            PageInfo<Goods> page = goodsService.getPage(pageNo,pageSize);
+            return  Result.success(page);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.fail("服务器内部错误");
+    }
 
 }

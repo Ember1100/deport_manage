@@ -3,6 +3,7 @@ package cn.lanqiao.deport_manage.web;
 import cn.lanqiao.deport_manage.entity.User;
 import cn.lanqiao.deport_manage.service.UserService;
 import cn.lanqiao.deport_manage.utils.Result;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,18 @@ public class UserController {
         return Result.fail("服务器内部错误");
     }
 
+    //分页接口
+    @PostMapping("/getUserPage")
+    public Result getUserPage(@RequestParam(defaultValue = "1") int pageNo,
+                              @RequestParam(defaultValue = "5") int pageSize) {
+        try {
+            PageInfo<User> page = userService.getUserPage(pageNo, pageSize);
+            return Result.success(page);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.fail("服务器内部错误");
+    }
     //管理员或用户登录接口
     @PostMapping("/login")
     public Result login(String username, String password) {
@@ -68,5 +81,6 @@ public class UserController {
        }
         return Result.fail("服务器内部错误");
     }
+
 
 }
