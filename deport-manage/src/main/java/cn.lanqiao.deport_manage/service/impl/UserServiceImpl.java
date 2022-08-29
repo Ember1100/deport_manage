@@ -1,5 +1,6 @@
 package cn.lanqiao.deport_manage.service.impl;
 
+import cn.lanqiao.deport_manage.entity.Goods;
 import cn.lanqiao.deport_manage.entity.User;
 import cn.lanqiao.deport_manage.mapper.UserMapper;
 import cn.lanqiao.deport_manage.service.UserService;
@@ -22,7 +23,6 @@ public class UserServiceImpl implements UserService {
         list = userMapper.getAllUser();
         return list;
     }
-
 
 
     @Override
@@ -52,6 +52,14 @@ public class UserServiceImpl implements UserService {
         PageInfo<User> pageInfo = new PageInfo<>(user);
         return pageInfo;
     }
+
+    //修改用户信息
+    @Override
+    public int updateUser(User user) {
+        return userMapper.updateUser(user);
+    }
+
+
 }
 
 

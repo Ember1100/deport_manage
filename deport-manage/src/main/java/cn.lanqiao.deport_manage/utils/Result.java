@@ -28,7 +28,7 @@ public class Result<T> {
    }
 
 
-  public static Result success(int ok,String message) {
+    public static Result success(int ok,String message) {
         Result result = new Result(ok,message);
         return result;
   }

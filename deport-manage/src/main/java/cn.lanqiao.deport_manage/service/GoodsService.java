@@ -10,4 +10,6 @@ public interface GoodsService {
 
     public PageInfo<Goods> getPage(int pageNo, int pageSize);
 
+    public List<Goods> getGoodsWithUsername(String username);
+
 }

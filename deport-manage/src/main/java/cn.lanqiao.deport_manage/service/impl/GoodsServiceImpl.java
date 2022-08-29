@@ -30,4 +30,10 @@ public class GoodsServiceImpl implements GoodsService {
         return page;
     }
 
+    //根据用户名字查询查询物品
+    @Override
+    public List<Goods> getGoodsWithUsername(String username) {
+        return goodsMapper.getGoodsWithUsername(username);
+    }
+
 }

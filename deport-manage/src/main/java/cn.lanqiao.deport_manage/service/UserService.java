@@ -1,5 +1,6 @@
 package cn.lanqiao.deport_manage.service;
 
+
 import cn.lanqiao.deport_manage.entity.User;
 import com.github.pagehelper.PageInfo;
 
@@ -13,4 +14,8 @@ public interface UserService {
     public User searchUser(String username);
 
     public PageInfo<User> getUserPage(int pageNo,int pageSize);
+
+    public int updateUser(User user);
+
+
 }

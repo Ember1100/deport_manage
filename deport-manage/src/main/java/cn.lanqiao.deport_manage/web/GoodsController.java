@@ -41,4 +41,15 @@ public class GoodsController {
         return Result.fail("服务器内部错误");
     }
 
+    //查看用户物品详情
+    @PostMapping("/searchGoodsByUser")
+    public Result searchGoodsByUser(String username) {
+        try {
+            List<Goods> goods = goodsService.getGoodsWithUsername(username);
+            return Result.success(goods);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Result.fail("服务器内部错误");
+    }
 }

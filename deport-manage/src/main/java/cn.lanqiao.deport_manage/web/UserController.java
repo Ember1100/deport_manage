@@ -43,6 +43,7 @@ public class UserController {
         }
         return Result.fail("服务器内部错误");
     }
+
     //管理员或用户登录接口
     @PostMapping("/login")
     public Result login(String username, String password) {
@@ -65,7 +66,7 @@ public class UserController {
     }
 
     //查找用户接口
-    @RequestMapping("searchuser")
+    @RequestMapping("/searchUser")
     public Result search(String username) {
        try {
            User user = userService.searchUser(username);
@@ -82,5 +83,19 @@ public class UserController {
         return Result.fail("服务器内部错误");
     }
 
+    @PostMapping("/saveUser")
+    public Result saveUser(User user) {
+        try{
+           int i = userService.updateUser(user);
+           if (i==1) {
+               return Result.success(1,"操作成功");
+           }else {
+               return Result.success(0,"操作失败");
+           }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.fail("服务器内部错误");
+    }
 
 }
