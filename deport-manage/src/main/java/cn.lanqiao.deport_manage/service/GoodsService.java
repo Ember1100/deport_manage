@@ -12,4 +12,10 @@ public interface GoodsService {
 
     public List<Goods> getGoodsWithUsername(String username);
 
+    public int saveGoods(Goods goods);
+
+    public int del(int id);
+
+    List<Goods> getGoodsWithName(String goodsName);
+
 }

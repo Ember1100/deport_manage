@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class GoodsServiceImpl implements GoodsService {
     @Autowired
@@ -16,7 +17,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public List<Goods> getAllGoods() {
-        List<Goods> list =null;
+        List<Goods> list = null;
         list = goodsMapper.getAllGoods();
         return list;
     }
@@ -24,7 +25,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public PageInfo<Goods> getPage(int pageNo, int pageSize) {
-        PageHelper.startPage(pageNo,pageSize);
+        PageHelper.startPage(pageNo, pageSize);
         List<Goods> list = goodsMapper.getAllGoods();
         PageInfo<Goods> page = new PageInfo<>(list);
         return page;
@@ -35,5 +36,25 @@ public class GoodsServiceImpl implements GoodsService {
     public List<Goods> getGoodsWithUsername(String username) {
         return goodsMapper.getGoodsWithUsername(username);
     }
+
+    @Override
+    public int saveGoods(Goods goods) {
+        if (goods.getId() != null) {
+            return goodsMapper.updateGoods(goods);
+        } else {
+            return goodsMapper.addGoods(goods);
+        }
+    }
+
+    @Override
+    public int del(int id) {
+        return goodsMapper.deleteGoods(id);
+    }
+
+    @Override
+    public List<Goods> getGoodsWithName(String goodsName) {
+        return goodsMapper.getGoodsWithName(goodsName);
+    }
+
 
 }

@@ -10,4 +10,5 @@ public interface RecordService {
 
     public PageInfo<Record> getRecordPage(int pageNo, int pageSize);
 
+    public int addRecord(Record record);
 }

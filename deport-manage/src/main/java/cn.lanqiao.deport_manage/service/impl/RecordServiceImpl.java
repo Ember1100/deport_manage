@@ -30,5 +30,10 @@ public class RecordServiceImpl implements RecordService {
         return pageInfo;
     }
 
+    @Override
+    public int addRecord(Record record) {
+        return recordMapper.addRecord(record);
+    }
+
 
 }

@@ -19,22 +19,22 @@ public class GoodsController {
     //获取所有商品接口
     @RequestMapping("goods")
     @ResponseBody
-    public Result getAllGoods(){
-       try{
-           List<Goods> list =goodsService.getAllGoods();
-           return Result.success(list);
-       }catch (Exception e) {
-           e.printStackTrace();
-       }
-       return Result.fail("服务器出错");
+    public Result getAllGoods() {
+        try {
+            List<Goods> list = goodsService.getAllGoods();
+            return Result.success(list);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.fail("服务器出错");
     }
 
     @RequestMapping("/goodsGetPage")
     public Result getPage(@RequestParam(defaultValue = "1") int pageNo,
                           @RequestParam(defaultValue = "5") int pageSize) {
         try {
-            PageInfo<Goods> page = goodsService.getPage(pageNo,pageSize);
-            return  Result.success(page);
+            PageInfo<Goods> page = goodsService.getPage(pageNo, pageSize);
+            return Result.success(page);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -47,7 +47,51 @@ public class GoodsController {
         try {
             List<Goods> goods = goodsService.getGoodsWithUsername(username);
             return Result.success(goods);
-        }catch (Exception e){
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.fail("服务器内部错误");
+    }
+
+    //用户添加物品到仓库系统
+    @RequestMapping("/saveGoods")
+    public Result aadGoods(Goods goods) {
+        try {
+            int i = goodsService.saveGoods(goods);
+            if (i == 1) {
+                return Result.success(1, "操作成功");
+            } else {
+                return Result.fail("操作失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.fail("服务器内部错误");
+    }
+
+    //用户将物品取出
+    @RequestMapping("/deleteGoods")
+    public Result deleteGoods(int id) {
+        try {
+            int i = goodsService.del(id);
+            if (i == 1) {
+                return Result.success(1, "物品取出成功");
+            } else {
+                return Result.fail("物品取出失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.fail("服务器内部错误");
+    }
+
+    //按物品名字查找物品
+    @RequestMapping("/searchGoods")
+    public Result getGoodsWithName(String goodsName){
+        try{
+            List<Goods> goods = goodsService.getGoodsWithName(goodsName);
+            return Result.success(goods);
+        }catch (Exception e) {
             e.printStackTrace();
         }
         return Result.fail("服务器内部错误");

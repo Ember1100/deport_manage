@@ -22,5 +22,4 @@ public class Goods implements Serializable {
 
     private String username;
 
-
 }

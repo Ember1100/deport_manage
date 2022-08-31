@@ -41,4 +41,19 @@ public class RecordController {
         return Result.fail("服务器内部错误");
     }
 
+    @RequestMapping("/addRecord")
+    public Result addRecord(Record record) {
+        try {
+            int i = recordService.addRecord(record);
+            if (i==1) {
+                return Result.success(1,"记录添加成功");
+            } else {
+                return Result.fail("记录添加失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.fail("服务器内部错误");
+    }
+
 }
