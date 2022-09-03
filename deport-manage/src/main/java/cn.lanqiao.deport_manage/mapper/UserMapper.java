@@ -14,6 +14,8 @@ public interface UserMapper {
     public User getUserWithName(String username);
 //更新用户
     public int updateUser(User user);
+    int registerUser(User user);
+
 
 //   新增用户
 

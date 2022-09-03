@@ -64,6 +64,11 @@ public class UserServiceImpl implements UserService {
         return userMapper.addUser(user);
     }
 
+    @Override
+    public int registerUser(User user) {
+        return userMapper.registerUser(user);
+    }
+
 
 }
 

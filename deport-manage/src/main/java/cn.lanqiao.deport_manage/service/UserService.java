@@ -19,5 +19,6 @@ public interface UserService {
 //   新增用户
      public int addUser(User user);
 
+    public int registerUser(User user);
 
 }
