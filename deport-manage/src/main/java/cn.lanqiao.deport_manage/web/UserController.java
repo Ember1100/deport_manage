@@ -98,4 +98,49 @@ public class UserController {
         return Result.fail("服务器内部错误");
     }
 
+
+//    增加用户
+@PostMapping("/adduser")
+    public  Result addUser(User user){
+    try{
+
+        user.setType(0);
+
+        int i = userService.addUser(user);
+        System.out.println(user);
+        if (i==1) {
+            return Result.success(1,"新增成功");
+        }else {
+            return Result.success(0,"操作失败");
+        }
+    }catch (Exception e) {
+        e.printStackTrace();
+    }
+    return Result.fail("服务器内部错误");
 }
+//更新
+    @PostMapping("/updateuser")
+    public  Result updateUser(User user){
+        try{
+
+
+
+            int i = userService.updateUser(user);
+            System.out.println(user);
+            if (i==1) {
+                return Result.success(1,"更新成功");
+            }else {
+                return Result.success(0,"操作失败");
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.fail("服务器内部错误");
+    }
+
+
+
+}
+
+
+

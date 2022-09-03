@@ -12,7 +12,10 @@ public interface UserMapper {
     public List<User> getAllUser();
 
     public User getUserWithName(String username);
-
+//更新用户
     public int updateUser(User user);
 
+//   新增用户
+
+    public int addUser(User user);
 }

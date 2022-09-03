@@ -58,6 +58,11 @@ public class UserServiceImpl implements UserService {
     public int updateUser(User user) {
         return userMapper.updateUser(user);
     }
+//新增用户
+    @Override
+    public int addUser(User user) {
+        return userMapper.addUser(user);
+    }
 
 
 }

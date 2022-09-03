@@ -16,6 +16,8 @@ public interface UserService {
     public PageInfo<User> getUserPage(int pageNo,int pageSize);
 
     public int updateUser(User user);
+//   新增用户
+     public int addUser(User user);
 
 
 }
