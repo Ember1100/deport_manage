@@ -56,4 +56,15 @@ public class RecordController {
         return Result.fail("服务器内部错误");
     }
 
+    //用户查看自己的物品提交记录
+    @PostMapping ("/getUserRecord")
+    public Result  getUserRecord(String username){
+        try {
+            List<Record> record = recordService.getUserRecord(username);
+            return Result.success(record);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.fail("服务器内部错误");
+    }
 }

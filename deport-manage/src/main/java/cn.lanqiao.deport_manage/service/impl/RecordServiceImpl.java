@@ -35,5 +35,10 @@ public class RecordServiceImpl implements RecordService {
         return recordMapper.addRecord(record);
     }
 
+    @Override
+    public List<Record> getUserRecord(String username) {
+        return recordMapper.getUserRecord(username);
+    }
+
 
 }

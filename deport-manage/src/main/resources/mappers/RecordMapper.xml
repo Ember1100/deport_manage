@@ -2,12 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.lanqiao.deport_manage.mapper.RecordMapper">
 
-    <insert id="addRecord" parameterType="record">
+    <insert id="addRecord" parameterType="Record">
         insert into `record`(goodsName, username, number, type, state)
         values (#{goodsName}, #{username}, #{number}, #{type}, #{state})
     </insert>
 
-    <update id="updateRecord" parameterType="record">
+    <sql id="Base">
+        id,goodsName, username, number, type, state
+    </sql>
+    <update id="updateRecord" parameterType="Record">
         update record
         set goodsName=#{goodsName},
             username=#{username},
@@ -22,8 +25,12 @@
         where id = #{id}
     </delete>
 
-    <select id="getAllRecord" resultType="record">
-        select *
+    <select id="getAllRecord" resultType="Record">
+        select <include refid="Base"></include>
         from record
+    </select>
+
+    <select id="getUserRecord" resultType="Record">
+        select <include refid="Base"></include> from record where username=#{username}
     </select>
 </mapper>

@@ -13,4 +13,6 @@ public interface RecordMapper {
     //新增记录
     public int addRecord(Record record);
 
+    List<Record> getUserRecord(String username);
+
 }
