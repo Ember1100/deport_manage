@@ -42,6 +42,7 @@ public class RecordController {
     }
 
 
+    //添加记录
     @RequestMapping("/addRecord")
     public Result addRecord(Record record) {
         try {
@@ -100,4 +101,5 @@ public class RecordController {
         }
         return Result.fail("服务器内部错误");
     }
+
 }

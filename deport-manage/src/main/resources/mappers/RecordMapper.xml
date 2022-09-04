@@ -40,4 +40,5 @@
     <select id="getUserRecord" resultType="Record">
         select <include refid="Base"></include> from record where username=#{username}
     </select>
+
 </mapper>
