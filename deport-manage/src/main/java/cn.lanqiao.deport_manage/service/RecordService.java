@@ -13,4 +13,8 @@ public interface RecordService {
     public int addRecord(Record record);
 
     List<Record> getUserRecord(String username);
+
+    int delRecord(int id);
+
+    int delRecords(List<Integer> ids);
 }

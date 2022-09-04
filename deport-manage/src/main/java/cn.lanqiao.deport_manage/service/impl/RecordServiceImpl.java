@@ -40,5 +40,16 @@ public class RecordServiceImpl implements RecordService {
         return recordMapper.getUserRecord(username);
     }
 
+    @Override
+    public int delRecord(int id) {
+        return recordMapper.delRecord(id);
+    }
+
+
+    @Override
+    public int delRecords(List<Integer> ids) {
+        return recordMapper.delRecords(ids);
+    }
+
 
 }

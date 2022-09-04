@@ -41,12 +41,13 @@ public class RecordController {
         return Result.fail("服务器内部错误");
     }
 
+
     @RequestMapping("/addRecord")
     public Result addRecord(Record record) {
         try {
             int i = recordService.addRecord(record);
-            if (i==1) {
-                return Result.success(1,"记录添加成功");
+            if (i == 1) {
+                return Result.success(1, "记录添加成功");
             } else {
                 return Result.fail("记录添加失败");
             }
@@ -57,12 +58,44 @@ public class RecordController {
     }
 
     //用户查看自己的物品提交记录
-    @PostMapping ("/getUserRecord")
-    public Result  getUserRecord(String username){
+    @PostMapping("/getUserRecord")
+    public Result getUserRecord(String username) {
         try {
             List<Record> record = recordService.getUserRecord(username);
             return Result.success(record);
-        }catch (Exception e) {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.fail("服务器内部错误");
+    }
+
+    //删除一条记录
+    @RequestMapping("/delRecord")
+    public Result delRecord(int id){
+        try {
+            int i = recordService.delRecord(id);
+            if (i==1) {
+                return Result.success(1,"删除成功");
+            }else {
+                return Result.fail(0,"删除失败");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Result.fail("服务器内部错误");
+    }
+
+    //删除多条记录
+    @RequestMapping("/delRecords")
+    public Result delRecords(@RequestParam List<Integer> ids) {
+        try {
+            int i = recordService.delRecords(ids);
+            if (i>=1) {
+                return Result.success(1,"删除成功");
+            }else {
+                return Result.fail(0,"删除失败");
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return Result.fail("服务器内部错误");

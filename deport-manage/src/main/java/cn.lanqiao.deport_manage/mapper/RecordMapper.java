@@ -15,4 +15,7 @@ public interface RecordMapper {
 
     List<Record> getUserRecord(String username);
 
+    int delRecord(int id);
+    int delRecords(List<Integer> ids);
+
 }

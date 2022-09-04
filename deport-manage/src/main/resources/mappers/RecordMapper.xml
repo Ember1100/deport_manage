@@ -10,6 +10,7 @@
     <sql id="Base">
         id,goodsName, username, number, type, state
     </sql>
+
     <update id="updateRecord" parameterType="Record">
         update record
         set goodsName=#{goodsName},
@@ -19,10 +20,16 @@
             state=#{state}
         where id = #{id}
     </update>
-    <delete id="deleteRecord">
-        delete
-        from record
-        where id = #{id}
+
+    <delete id="delRecord">
+        delete from record where id = #{id}
+    </delete>
+
+    <delete id="delRecords" >
+        delete from record where
+        <foreach collection="list" item="id" separator="or">
+            id = #{id}
+        </foreach>
     </delete>
 
     <select id="getAllRecord" resultType="Record">
