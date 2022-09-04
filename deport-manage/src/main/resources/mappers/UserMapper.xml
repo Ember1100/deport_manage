@@ -39,7 +39,7 @@
   </update>
 
   <delete id="deleteUser">
-    delete from USER where username=#{username}
+    delete from USER where id = #{id}
   </delete>
 
   <select id="getUserWithName" resultType="User">

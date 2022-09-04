@@ -152,6 +152,20 @@ public class UserController {
         return Result.fail("服务器内部错误");
     }
 
+    @RequestMapping("/deleteUser")
+    public Result deleteUser(int id) {
+        try {
+            int i = userService.del(id);
+            if (i == 1) {
+                return Result.success(1, "物品取出成功");
+            } else {
+                return Result.fail("物品取出失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.fail("服务器内部错误");
+    }
 }
 
 

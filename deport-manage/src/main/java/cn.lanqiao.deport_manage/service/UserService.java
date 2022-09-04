@@ -21,4 +21,5 @@ public interface UserService {
 
     public int registerUser(User user);
 
+    public int del(int id);
 }

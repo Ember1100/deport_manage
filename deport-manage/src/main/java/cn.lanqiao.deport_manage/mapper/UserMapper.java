@@ -20,4 +20,5 @@ public interface UserMapper {
 //   新增用户
     public int addUser(User user);
 
+    int deleteUser(int id);
 }
