@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.lanqiao.deport_manage.mapper.RecordMapper">
 
+    <sql id="Base">
+        id,goodsName, username, number, type, state
+    </sql>
+
     <insert id="addRecord" parameterType="record">
         insert into `record`(goodsName, username, number, type, state)
         values (#{goodsName}, #{username}, #{number}, #{type}, #{state})
@@ -16,28 +20,41 @@
             state=#{state}
         where id = #{id}
     </update>
-    <delete id="deleteRecord">
-        delete
-        from record
-        where id = #{id}
+
+    <delete id="delRecord">
+        delete from record where id = #{id}
+    </delete>
+
+    <delete id="delRecords" >
+        delete from record where
+        <foreach collection="list" item="id" separator="or">
+            id = #{id}
+        </foreach>
     </delete>
 
     <select id="getAllRecord" resultType="record">
-        select *
+        select <include refid="Base"></include>
         from record
 
+    </select>
+
+    <select id="getUserRecord" resultType="Record">
+        select <include refid="Base"></include> from record where username=#{username}
     </select>
 
     <update id="updateStateById">
         update record set `state` = #{state}  where id = #{id}
     </update>
     <select id="selectRecord" resultType="record">
-        select * from record where id = #{id}
+        select <include refid="Base"></include>  from record where id = #{id}
     </select>
+
     <update id="updateNumber">
         update goods set `number`= #{number}
         where id = #{id}
     </update>
+
+
 
 
 </mapper>

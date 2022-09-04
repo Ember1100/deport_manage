@@ -25,6 +25,11 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
+    public List<Record> getUserRecord(String username) {
+        return recordMapper.getUserRecord(username);
+    }
+
+    @Override
     public PageInfo<Record> getRecordPage(int pageNo, int pageSize) {
         PageHelper.startPage(pageNo, pageSize);
         List<Record> allRecord = recordMapper.getAllRecord();
@@ -50,6 +55,17 @@ public class RecordServiceImpl implements RecordService {
     @Override
     public int updateGoodsNumber(Record record) {
         return recordMapper.updateNumber(record);
+    }
+
+    @Override
+    public int delRecord(int id) {
+        return recordMapper.delRecord(id);
+    }
+
+
+    @Override
+    public int delRecords(List<Integer> ids) {
+        return recordMapper.delRecords(ids);
     }
 
 }

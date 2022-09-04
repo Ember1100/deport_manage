@@ -18,4 +18,11 @@ public interface RecordService {
     Record select(int id);
 
     int updateGoodsNumber(Record record);
+
+    List<Record> getUserRecord(String username);
+
+
+    int delRecord(int id);
+
+    int delRecords(List<Integer> ids);
 }

@@ -6,15 +6,15 @@ import com.github.pagehelper.PageInfo;
 import java.util.List;
 
 public interface GoodsService {
-    public List<Goods> getAllGoods();
+    List<Goods> getAllGoods();
 
-    public PageInfo<Goods> getPage(int pageNo, int pageSize);
+    PageInfo<Goods> getPage(int pageNo, int pageSize);
 
-    public List<Goods> getGoodsWithUsername(String username);
+    List<Goods> getGoodsWithUsername(String username);
 
-    public int saveGoods(Goods goods);
+    int saveGoods(Goods goods);
 
-    public int del(int id);
+    int del(int id);
 
     List<Goods> getGoodsWithName(String goodsName);
 

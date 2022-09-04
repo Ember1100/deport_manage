@@ -6,6 +6,10 @@
 <!--    where username=#{username}-->
 <!--  </update>-->
 
+<sql id="Base">
+   id,username,nickname,password, sex,phone,email,address, type
+</sql>
+
   <update id="updateUser" parameterType="User">
     update user
     <set>
@@ -35,20 +39,25 @@
   </update>
 
   <delete id="deleteUser">
-    delete from USER where username=#{username}
+    delete from user where id = #{id}
   </delete>
+
   <select id="getUserWithName" resultType="User">
-    select * from user where username=#{value}
+    select <include refid="Base"></include> from user where username=#{value}
   </select>
-  <insert id="registeUser" parameterType="User">
+
+  <insert id="registerUser" parameterType="User">
     insert into `user`(username,nickname,password,sex,phone,email,address)
     values (#{username},#{nickname},#{password},#{sex},#{phone},#{email},#{address})
   </insert>
+
   <select id="getAllUser" resultType="User">
-    select * from user where type='0'
+    select <include refid="Base"></include> from user where type='0'
   </select>
+
   <insert id="addUser" parameterType="User">
     insert into `user`(username,nickname,password,sex,phone,email,address,type)
     values (#{username},#{nickname},#{password},#{sex},#{phone},#{email},#{address},#{type})
   </insert>
+
 </mapper>

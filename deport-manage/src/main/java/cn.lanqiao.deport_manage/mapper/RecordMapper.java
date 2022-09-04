@@ -19,6 +19,11 @@ public interface RecordMapper {
 
     Record selectRecord(int id);
 
+    List<Record> getUserRecord(String username);
+
     int updateNumber(Record record);
+
+    int delRecord(int id);
+    int delRecords(List<Integer> ids);
 
 }

@@ -19,7 +19,7 @@ public class UserController {
     private UserService userService;
 
     //获取所有用户接口
-    @RequestMapping("user")
+    @RequestMapping("/user")
     @ResponseBody
     public Result getAllUser() {
         try {
@@ -38,7 +38,7 @@ public class UserController {
         try {
             PageInfo<User> page = userService.getUserPage(pageNo, pageSize);
             return Result.success(page);
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return Result.fail("服务器内部错误");
@@ -54,10 +54,10 @@ public class UserController {
             int ok = userService.isLogin(hashMap);
             if (ok == 0) {
                 return Result.fail(ok, "密码错误");
-            } else if (ok==1){
+            } else if (ok == 1) {
                 return Result.success(ok, "登录成功");
             } else {
-              return  Result.fail(ok,"用户名错误");
+                return Result.fail(ok, "用户名错误");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -68,34 +68,105 @@ public class UserController {
     //查找用户接口
     @RequestMapping("/searchUser")
     public Result search(String username) {
-       try {
-           User user = userService.searchUser(username);
-           if(user==null)
-           {
-             return Result.fail("用户不存在");
-           }
-           else{
-               return Result.success(user);
-           }
-       }catch (Exception e) {
-           e.printStackTrace();
-       }
+        try {
+            User user = userService.searchUser(username);
+            if (user == null) {
+                return Result.fail("用户不存在");
+            } else {
+                return Result.success(user);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return Result.fail("服务器内部错误");
     }
 
     @PostMapping("/saveUser")
     public Result saveUser(User user) {
-        try{
-           int i = userService.updateUser(user);
-           if (i==1) {
-               return Result.success(1,"操作成功");
-           }else {
-               return Result.success(0,"操作失败");
-           }
+        try {
+            int i = userService.updateUser(user);
+            if (i == 1) {
+                return Result.success(1, "操作成功");
+            } else {
+                return Result.success(0, "操作失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.fail("服务器内部错误");
+    }
+
+
+    //    增加用户
+    @PostMapping("/adduser")
+    public Result addUser(User user) {
+        try {
+
+            user.setType(0);
+
+            int i = userService.addUser(user);
+            System.out.println(user);
+            if (i == 1) {
+                return Result.success(1, "新增成功");
+            } else {
+                return Result.success(0, "操作失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.fail("服务器内部错误");
+    }
+
+    //更新
+    @PostMapping("/updateuser")
+    public Result updateUser(User user) {
+        try {
+
+
+            int i = userService.updateUser(user);
+            System.out.println(user);
+            if (i == 1) {
+                return Result.success(1, "更新成功");
+            } else {
+                return Result.success(0, "操作失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.fail("服务器内部错误");
+    }
+
+
+    @PostMapping("/registerUser")
+    public Result registerUser(User user) {
+        try {
+            int i = userService.registerUser(user);
+            if (i == 0) {
+                return Result.fail(0,"注册失败");
+            } else {
+                return Result.success(1,"注册成功");
+            }
         }catch (Exception e) {
             e.printStackTrace();
         }
         return Result.fail("服务器内部错误");
     }
 
+    @RequestMapping("/deleteUser")
+    public Result deleteUser(int id) {
+        try {
+            int i = userService.del(id);
+            if (i == 1) {
+                return Result.success(1, "用户删除成功");
+            } else {
+                return Result.fail("用户删除失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.fail("服务器内部错误");
+    }
 }
+
+
+

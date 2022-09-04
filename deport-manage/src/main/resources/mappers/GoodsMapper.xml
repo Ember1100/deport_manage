@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.lanqiao.deport_manage.mapper.GoodsMapper">
 
+    <sql id="Base">
+        id,goodsName,context,number,max,min,price,username
+    </sql>
+
     <insert id="addGoods" parameterType="Goods">
         insert into `goods`(goodsName, context, number, max, min, price, username)
         values (#{goodsName}, #{context}, #{number}, #{max}, #{min}, #{price}, #{username})
@@ -26,26 +30,27 @@
     </delete>
 
     <select id="getAllGoods" resultType="Goods">
-        select *
+        select <include refid="Base"></include>
         from goods
     </select>
 
     <select id="getGoodsWithName" resultType="Goods">
-        select *
+        select <include refid="Base"></include>
         from goods
         where goodsName = #{goodsName}
     </select>
 
     <select id="getGoodsWithUsername" resultType="Goods">
-        select *
+        select <include refid="Base"></include>
         from goods
         where username = #{username}
     </select>
 
     <select id="getGoodsWithUserGoods" resultType="Goods">
-        select *
+        select <include refid="Base"></include>
         from goods
         where goodsName = #{goodsName}
-          and username = #{username}
+        and username = #{username}
     </select>
+
 </mapper>
