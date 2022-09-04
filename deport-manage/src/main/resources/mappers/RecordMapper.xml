@@ -25,5 +25,19 @@
     <select id="getAllRecord" resultType="record">
         select *
         from record
+
     </select>
+
+    <update id="updateStateById">
+        update record set `state` = #{state}  where id = #{id}
+    </update>
+    <select id="selectRecord" resultType="record">
+        select * from record where id = #{id}
+    </select>
+    <update id="updateNumber">
+        update goods set `number`= #{number}
+        where id = #{id}
+    </update>
+
+
 </mapper>

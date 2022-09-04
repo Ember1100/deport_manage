@@ -11,12 +11,13 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
+
 public class RecordController {
     @Autowired
     private RecordService recordService;
 
     //获取所有记录接口
-    @RequestMapping("record")
+    @RequestMapping("/record")
     @ResponseBody
     public Result getAllRecord() {
         try {
@@ -55,5 +56,32 @@ public class RecordController {
         }
         return Result.fail("服务器内部错误");
     }
+    @PostMapping("/updaterecord")
+    public Result updaterecord(Integer id,String state){
+        try {
+            int r = recordService.updateState(id,state);
+            System.out.println(id);
+            System.out.println(state);
+            return Result.success(1,"记录添加成功");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return  Result.fail("系统异常") ;
+    }
+    @PostMapping("/searchgoodsbyusergoods")
+    public Result searchgoodsbyusergoods(Integer id){
+        try {
+            Record re= recordService.select(id);
+            if(re != null){
+                return Result.success(re);
+            }else{
+                return Result.fail(0,"失败") ;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return  Result.fail("系统异常") ;
+    }
+
 
 }
