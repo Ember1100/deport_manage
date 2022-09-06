@@ -23,6 +23,13 @@
   </properties>
 
   <dependencies>
+
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <version>1.9.8</version>
+      <scope>runtime</scope>
+    </dependency>
     <!-- 数据库驱动-->
     <dependency>
       <groupId>mysql</groupId>

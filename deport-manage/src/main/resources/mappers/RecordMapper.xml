@@ -45,6 +45,7 @@
     <update id="updateStateById">
         update record set `state` = #{state}  where id = #{id}
     </update>
+
     <select id="selectRecord" resultType="record">
         select <include refid="Base"></include>  from record where id = #{id}
     </select>

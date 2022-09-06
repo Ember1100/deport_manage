@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-   http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd
    http://www.springframework.org/schema/context
    http://www.springframework.org/schema/context/spring-context.xsd">
 
@@ -15,7 +21,36 @@
     <!-- 配置事务管理器 -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <!-- 注入数据库连接池 -->
-        <property name="dataSource" ref="dataSource" />
+        <property name="dataSource" ref="dataSource"/>
     </bean>
+
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <!--给那些方法配置事务-->
+        <tx:attributes>
+            <!--配置事务的传播性: new propagation=""-->
+            <!--这里的名字对应的是方法名-->
+            <!--  propagation="REQUIRED" 有默认-->
+            <tx:method name="add*" propagation="REQUIRED" />
+            <tx:method name="insert*" />
+            <tx:method name="save*" />
+            <tx:method name="update*" />
+            <tx:method name="del*" />
+            <!--
+             read-only为false说明为只读,一般用作统计
+            -->
+            <tx:method name="get*" read-only="false"/>
+            <tx:method name="find*" read-only="false"/>
+
+        </tx:attributes>
+    </tx:advice>
+
+    <!--配置事务切入AOP-->
+    <aop:config>
+        <aop:pointcut id="txPointCut" expression="execution(* cn.laniqao.deport_manage.service.impl.*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>
+    </aop:config>
+
+    <!--开启AOP 注解支持-->
+    <aop:aspectj-autoproxy/>
 
 </beans>

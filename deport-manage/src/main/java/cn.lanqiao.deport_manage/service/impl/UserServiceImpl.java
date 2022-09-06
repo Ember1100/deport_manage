@@ -24,7 +24,6 @@ public class UserServiceImpl implements UserService {
         return list;
     }
 
-
     @Override
     public int isLogin(Map<String, String> map) {
         /*调用dao层*/
