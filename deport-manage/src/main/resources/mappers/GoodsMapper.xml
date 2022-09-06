@@ -53,4 +53,8 @@
         and username = #{username}
     </select>
 
+    <select id="selectById" resultType="Goods">
+        select <include refid="Base"></include> from goods where id = #{id}
+    </select>
+
 </mapper>

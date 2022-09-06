@@ -2,8 +2,10 @@ package cn.lanqiao.deport_manage.service.impl;
 
 import cn.lanqiao.deport_manage.entity.Goods;
 import cn.lanqiao.deport_manage.entity.Record;
+import cn.lanqiao.deport_manage.entity.User;
 import cn.lanqiao.deport_manage.mapper.GoodsMapper;
 import cn.lanqiao.deport_manage.mapper.RecordMapper;
+import cn.lanqiao.deport_manage.mapper.UserMapper;
 import cn.lanqiao.deport_manage.service.GoodsService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -17,8 +19,10 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     private GoodsMapper goodsMapper;
 
+
     @Autowired
     private RecordMapper recordMapper;
+
     @Override
     public List<Goods> getAllGoods() {
         List<Goods> list = null;
@@ -46,7 +50,7 @@ public class GoodsServiceImpl implements GoodsService {
         if (goods.getId() != null) {
             return goodsMapper.updateGoods(goods);
         } else {
-            Record record  = new Record();
+            Record record = new Record();
             record.setGoodsName(goods.getGoodsName());
             record.setUsername(goods.getUsername());
             record.setNumber(goods.getNumber());
@@ -54,10 +58,9 @@ public class GoodsServiceImpl implements GoodsService {
             record.setState("暂未处理");
             goodsMapper.addGoods(goods);
             recordMapper.addRecord(record);
-            return 1 ;
+            return 1;
         }
     }
-
 
 
     @Override
@@ -68,6 +71,29 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public List<Goods> getGoodsWithName(String goodsName) {
         return goodsMapper.getGoodsWithName(goodsName);
+    }
+
+    @Override
+    public int deleteAddOne(int id) {
+        Goods goods = goodsMapper.selectById(id);
+        Record record = new Record();
+        record.setGoodsName(goods.getGoodsName());
+        record.setUsername(goods.getUsername());
+        record.setNumber(goods.getNumber());
+        record.setType("出库");
+        record.setState("暂未处理");
+        goodsMapper.deleteGoods(id);
+        recordMapper.addRecord(record);
+       /* Record goods = recordMapper.selectById(id);
+        goods.setGoodsName(goods.getGoodsName());
+        goods.setUsername(goods.getUsername());
+        goods.setNumber(goods.getNumber());
+        goods.setType("出库");
+        goods.setState("暂未处理");
+        Record record =  recordMapper.selectGoods(goods);
+        recordMapper.insertRecord(record);
+        return 1;*/
+        return 1;
     }
 
 

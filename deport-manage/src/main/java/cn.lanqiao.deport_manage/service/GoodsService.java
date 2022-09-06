@@ -1,12 +1,16 @@
 package cn.lanqiao.deport_manage.service;
 
 import cn.lanqiao.deport_manage.entity.Goods;
+import cn.lanqiao.deport_manage.entity.Record;
+import cn.lanqiao.deport_manage.entity.User;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
 public interface GoodsService {
     List<Goods> getAllGoods();
+
+
 
     PageInfo<Goods> getPage(int pageNo, int pageSize);
 
@@ -17,5 +21,7 @@ public interface GoodsService {
     int del(int id);
 
     List<Goods> getGoodsWithName(String goodsName);
+
+    int deleteAddOne(int id);
 
 }

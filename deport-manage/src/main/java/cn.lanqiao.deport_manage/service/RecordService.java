@@ -19,6 +19,7 @@ public interface RecordService {
 
     int updateGoodsNumber(Record record);
 
+
     List<Record> getUserRecord(String username);
 
 

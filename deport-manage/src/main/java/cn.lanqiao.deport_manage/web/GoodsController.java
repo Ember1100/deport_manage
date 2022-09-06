@@ -1,6 +1,10 @@
 package cn.lanqiao.deport_manage.web;
 
 import cn.lanqiao.deport_manage.entity.Goods;
+import cn.lanqiao.deport_manage.entity.Record;
+import cn.lanqiao.deport_manage.entity.User;
+import cn.lanqiao.deport_manage.mapper.GoodsMapper;
+import cn.lanqiao.deport_manage.mapper.UserMapper;
 import cn.lanqiao.deport_manage.service.GoodsService;
 import cn.lanqiao.deport_manage.utils.Result;
 import com.github.pagehelper.PageInfo;
@@ -15,6 +19,12 @@ public class GoodsController {
     /*注入业务层*/
     @Autowired
     private GoodsService goodsService;
+
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private GoodsMapper goodsMapper;
 
     //获取所有商品接口
     @RequestMapping("goods")
@@ -70,11 +80,12 @@ public class GoodsController {
     }
 
     //用户将物品取出
-    @RequestMapping("/deleteGoods")
+    @RequestMapping("/deletegoods")
     public Result deleteGoods(int id) {
         try {
-            int i = goodsService.del(id);
-            if (i == 1) {
+            System.out.println(id);
+            int r = goodsService.deleteAddOne(id);
+            if (r == 1) {
                 return Result.success(1, "物品取出成功");
             } else {
                 return Result.fail("物品取出失败");
@@ -92,6 +103,22 @@ public class GoodsController {
             List<Goods> goods = goodsService.getGoodsWithName(goodsName);
             return Result.success(goods);
         }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.fail("服务器内部错误");
+    }
+
+    @RequestMapping("/deleteuser")
+    public Result deleteuser(int id) {
+        try {
+            System.out.println(id);
+            int r = goodsService.deleteAddOne(id);
+            if (r == 1) {
+                return Result.success(1, "物品删除成功");
+            } else {
+                return Result.fail("物品删除失败");
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return Result.fail("服务器内部错误");
