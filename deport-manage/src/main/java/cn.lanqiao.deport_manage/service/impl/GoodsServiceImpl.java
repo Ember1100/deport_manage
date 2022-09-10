@@ -65,9 +65,8 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public int del(int id) {
-        return goodsMapper.deleteGoods(id);
+        return  goodsMapper.deleteGoods(id);
     }
-
     @Override
     public List<Goods> getGoodsWithName(String goodsName) {
         return goodsMapper.getGoodsWithName(goodsName);
@@ -84,16 +83,14 @@ public class GoodsServiceImpl implements GoodsService {
         record.setState("暂未处理");
         goodsMapper.deleteGoods(id);
         recordMapper.addRecord(record);
-       /* Record goods = recordMapper.selectById(id);
-        goods.setGoodsName(goods.getGoodsName());
-        goods.setUsername(goods.getUsername());
-        goods.setNumber(goods.getNumber());
-        goods.setType("出库");
-        goods.setState("暂未处理");
-        Record record =  recordMapper.selectGoods(goods);
-        recordMapper.insertRecord(record);
-        return 1;*/
+
         return 1;
+    }
+
+
+    @Override
+    public List<Goods> getGoodsWithUserGoods(String goodsName, String username) {
+        return goodsMapper.getGoodsWithUserGoods(goodsName,username);
     }
 
 

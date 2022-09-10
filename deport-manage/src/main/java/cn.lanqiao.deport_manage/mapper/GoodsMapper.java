@@ -10,22 +10,24 @@ import java.util.List;
 
 public interface GoodsMapper {
     //查询所有商品信息
-    public List<Goods> getAllGoods();
+    List<Goods> getAllGoods();
 
 
     //根据用户名字查询查询物品
-    public List<Goods> getGoodsWithUsername(String username);
+    List<Goods> getGoodsWithUsername(String username);
 
-    public int addGoods(Goods goods);
+    int addGoods(Goods goods);
 
     int deleteGoods(int id);
 
-    public int updateGoods(Goods goods);
+    int updateGoods(Goods goods);
 
     List<Goods> getGoodsWithName(String goodsName);
 
 
-   Goods selectById(int id);
+    Goods selectById(int id);
+
+    List<Goods> getGoodsWithUserGoods(@Param("goodsName") String goodsName, @Param("username") String username);
 
 
 }

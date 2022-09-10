@@ -9,16 +9,16 @@ import java.util.List;
 public interface UserMapper {
 
     //查询所有用户信息
-    public List<User> getAllUser();
+     List<User> getAllUser();
 
-    public User getUserWithName(String username);
+   User getUserWithName(String username);
     //更新用户
-    public int updateUser(User user);
+     int updateUser(User user);
     int registerUser(User user);
 
 
     //   新增用户
-    public int addUser(User user);
+     int addUser(User user);
 
     int deleteUser(int id);
 }

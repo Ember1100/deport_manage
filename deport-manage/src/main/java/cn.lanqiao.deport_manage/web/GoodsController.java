@@ -1,8 +1,6 @@
 package cn.lanqiao.deport_manage.web;
 
 import cn.lanqiao.deport_manage.entity.Goods;
-import cn.lanqiao.deport_manage.entity.Record;
-import cn.lanqiao.deport_manage.entity.User;
 import cn.lanqiao.deport_manage.mapper.GoodsMapper;
 import cn.lanqiao.deport_manage.mapper.UserMapper;
 import cn.lanqiao.deport_manage.service.GoodsService;
@@ -119,6 +117,18 @@ public class GoodsController {
                 return Result.fail("物品删除失败");
             }
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.fail("服务器内部错误");
+    }
+
+    //用户查找自己的物品
+    @RequestMapping("getGoodsMyself")
+    public Result getGoodsMyself(String goodsName, String username) {
+        try{
+            List<Goods> goods = goodsService.getGoodsWithUserGoods(goodsName, username);
+            return Result.success(goods);
+        }catch (Exception e) {
             e.printStackTrace();
         }
         return Result.fail("服务器内部错误");

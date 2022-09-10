@@ -10,10 +10,10 @@ public interface RecordMapper {
 
 
     //查询所有记录信息
-    public List<Record> getAllRecord();
+     List<Record> getAllRecord();
 
     //新增记录
-    public int addRecord(Record record);
+     int addRecord(Record record);
 
     int updateStateById(@Param("id") Integer id,@Param("state") String state);
 

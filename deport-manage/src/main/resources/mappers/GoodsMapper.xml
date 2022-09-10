@@ -57,4 +57,6 @@
         select <include refid="Base"></include> from goods where id = #{id}
     </select>
 
+
+
 </mapper>

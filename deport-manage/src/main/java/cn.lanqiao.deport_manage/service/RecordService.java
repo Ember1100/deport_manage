@@ -7,11 +7,11 @@ import java.awt.print.Book;
 import java.util.List;
 
 public interface RecordService {
-    public List<Record> getAllRecord();
+     List<Record> getAllRecord();
 
-    public PageInfo<Record> getRecordPage(int pageNo, int pageSize);
+    PageInfo<Record> getRecordPage(int pageNo, int pageSize);
 
-    public int addRecord(Record record);
+     int addRecord(Record record);
 
     int updateState(Integer id,String state);
 

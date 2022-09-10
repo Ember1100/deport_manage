@@ -121,8 +121,6 @@ public class UserController {
     @PostMapping("/updateuser")
     public Result updateUser(User user) {
         try {
-
-
             int i = userService.updateUser(user);
             System.out.println(user);
             if (i == 1) {
