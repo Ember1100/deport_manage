@@ -107,10 +107,9 @@ public class RecordController {
         return Result.fail("服务器内部错误");
     }
     @PostMapping("/updaterecord")
-    public Result updaterecord(Integer id,String state,String goodsName,String username, Integer number){
+    public Result updaterecord(Integer id,String state){
         try {
             int r = recordService.updateState(id,state);
-            goodsService.deleteGoods(goodsName,username,number);
             return Result.success(1,"记录添加成功");
         }catch (Exception e){
             e.printStackTrace();
@@ -118,9 +117,10 @@ public class RecordController {
         return  Result.fail("系统异常") ;
     }
     @PostMapping("/searchgoodsbyusergoods")
-    public Result searchgoodsbyusergoods(Integer id){
+    public Result searchgoodsbyusergoods(Integer id,String goodsName,String username, Integer number){
         try {
             Record re= recordService.select(id);
+            goodsService.deleteGoods(goodsName,username,number);
             if(re != null){
                 return Result.success(re);
             }else{
