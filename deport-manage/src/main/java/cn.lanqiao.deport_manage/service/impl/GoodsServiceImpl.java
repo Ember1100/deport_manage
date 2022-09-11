@@ -81,7 +81,6 @@ public class GoodsServiceImpl implements GoodsService {
         record.setNumber(goods.getNumber());
         record.setType("出库");
         record.setState("暂未处理");
-        goodsMapper.deleteGoods(id);
         recordMapper.addRecord(record);
 
         return 1;
