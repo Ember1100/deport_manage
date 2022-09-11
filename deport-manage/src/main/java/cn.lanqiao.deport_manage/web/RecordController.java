@@ -107,8 +107,7 @@ public class RecordController {
     public Result updaterecord(Integer id,String state){
         try {
             int r = recordService.updateState(id,state);
-            System.out.println(id);
-            System.out.println(state);
+            recordService.delRecord(id);
             return Result.success(1,"记录添加成功");
         }catch (Exception e){
             e.printStackTrace();
