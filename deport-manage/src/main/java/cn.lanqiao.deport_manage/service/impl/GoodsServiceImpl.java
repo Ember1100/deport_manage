@@ -2,10 +2,8 @@ package cn.lanqiao.deport_manage.service.impl;
 
 import cn.lanqiao.deport_manage.entity.Goods;
 import cn.lanqiao.deport_manage.entity.Record;
-import cn.lanqiao.deport_manage.entity.User;
 import cn.lanqiao.deport_manage.mapper.GoodsMapper;
 import cn.lanqiao.deport_manage.mapper.RecordMapper;
-import cn.lanqiao.deport_manage.mapper.UserMapper;
 import cn.lanqiao.deport_manage.service.GoodsService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -47,19 +45,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public int saveGoods(Goods goods) {
-        if (goods.getId() != null) {
             return goodsMapper.updateGoods(goods);
-        } else {
-            Record record = new Record();
-            record.setGoodsName(goods.getGoodsName());
-            record.setUsername(goods.getUsername());
-            record.setNumber(goods.getNumber());
-            record.setType("入库");
-            record.setState("暂未处理");
-            goodsMapper.addGoods(goods);
-            recordMapper.addRecord(record);
-            return 1;
-        }
     }
 
 
@@ -69,8 +55,8 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public int deleteGoods(String goodsName, String username, int number) {
-        return goodsMapper.delete(goodsName,username,number);
+    public int deleteGoods(String goodsName,String username) {
+        return goodsMapper.delete(goodsName,username);
     }
 
     @Override
@@ -88,10 +74,8 @@ public class GoodsServiceImpl implements GoodsService {
         record.setType("出库");
         record.setState("暂未处理");
         recordMapper.addRecord(record);
-
         return 1;
     }
-
 
     @Override
     public List<Goods> getGoodsWithUserGoods(String goodsName, String username) {

@@ -1,7 +1,9 @@
 package cn.lanqiao.deport_manage.service.impl;
 
 
+import cn.lanqiao.deport_manage.entity.Goods;
 import cn.lanqiao.deport_manage.entity.Record;
+import cn.lanqiao.deport_manage.mapper.GoodsMapper;
 import cn.lanqiao.deport_manage.mapper.RecordMapper;
 import cn.lanqiao.deport_manage.service.RecordService;
 import com.github.pagehelper.PageHelper;
@@ -10,13 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import java.awt.print.Book;
+
 import java.util.List;
 
 @Service
 public class RecordServiceImpl implements RecordService {
     @Autowired
     private RecordMapper recordMapper;
+
+    @Autowired
+    private GoodsMapper goodsMapper;
+
+    private static Goods good;
 
     @Override
     public List<Record> getAllRecord() {
@@ -44,8 +51,10 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
-    public int updateState(Integer id,String state) {
-        return recordMapper.updateStateById(id,state);
+    public int updateState(Integer id,String state,String goodsName,String username) {
+        goodsMapper.delete(goodsName,username);
+        recordMapper.updateStateById(id,state);
+        return 1;
     }
 
     @Override
@@ -68,5 +77,27 @@ public class RecordServiceImpl implements RecordService {
     public int delRecords(List<Integer> ids) {
         return recordMapper.delRecords(ids);
     }
+
+    @Override
+    public int addReUser(Goods goods) {
+        Record record = new Record();
+        record.setNumber(goods.getNumber());
+        record.setUsername(goods.getUsername());
+        record.setType("入库");
+        record.setGoodsName(goods.getGoodsName());
+        record.setState("暂未处理");
+        good = goods;
+        return recordMapper.addRecord(record);
+    }
+
+
+    @Override
+    public int agreeAdd(Integer id, String state) {
+        System.out.println(good);
+        recordMapper.updateStateById(id, state);
+        goodsMapper.addGoods(good);
+        return 1;
+    }
+
 
 }

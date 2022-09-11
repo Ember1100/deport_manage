@@ -20,7 +20,7 @@ public interface GoodsMapper {
 
     int deleteGoods(int id);
 
-    int delete(@Param("goodsName")String goodsName,@Param("username")String username,@Param("number")int number);
+    int delete(@Param("goodsName")String goodsName,@Param("username")String username);
 
     int updateGoods(Goods goods);
 

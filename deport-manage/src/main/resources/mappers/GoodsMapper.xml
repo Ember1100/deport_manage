@@ -30,7 +30,7 @@
     </delete>
 
     <delete id="delete">
-        delete from goods where goodsName = #{goodsName} and `number` = #{number} and username = #{username}
+        delete from goods where goodsName = #{goodsName} and username = #{username}
     </delete>
 
     <select id="getAllGoods" resultType="Goods">

@@ -1,5 +1,6 @@
 package cn.lanqiao.deport_manage.service;
 
+import cn.lanqiao.deport_manage.entity.Goods;
 import cn.lanqiao.deport_manage.entity.Record;
 import com.github.pagehelper.PageInfo;
 
@@ -13,7 +14,7 @@ public interface RecordService {
 
      int addRecord(Record record);
 
-    int updateState(Integer id,String state);
+    int updateState(Integer id,String state,String goodsName,String username);
 
     Record select(int id);
 
@@ -26,4 +27,9 @@ public interface RecordService {
     int delRecord(int id);
 
     int delRecords(List<Integer> ids);
+
+    int addReUser(Goods goods);
+    //同意用户添加物品
+    int agreeAdd(Integer id, String state) ;
+
 }

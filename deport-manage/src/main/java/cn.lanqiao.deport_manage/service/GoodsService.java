@@ -21,7 +21,7 @@ public interface GoodsService {
 
     int del(int id);
 
-    int deleteGoods(String goodsName,String username,int number);
+    int deleteGoods(String goodsName,String username);
 
     List<Goods> getGoodsWithName(String goodsName);
 

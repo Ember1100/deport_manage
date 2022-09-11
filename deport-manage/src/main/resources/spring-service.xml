@@ -35,6 +35,7 @@
             <tx:method name="save*" />
             <tx:method name="update*" />
             <tx:method name="del*" />
+            <tx:method name="agree*" />
             <!--
              read-only为false说明为只读,一般用作统计
             -->
