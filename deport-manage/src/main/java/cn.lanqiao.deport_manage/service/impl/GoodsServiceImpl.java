@@ -67,6 +67,12 @@ public class GoodsServiceImpl implements GoodsService {
     public int del(int id) {
         return  goodsMapper.deleteGoods(id);
     }
+
+    @Override
+    public int deleteGoods(String goodsName, String username, int number) {
+        return goodsMapper.delete(goodsName,username,number);
+    }
+
     @Override
     public List<Goods> getGoodsWithName(String goodsName) {
         return goodsMapper.getGoodsWithName(goodsName);

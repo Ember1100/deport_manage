@@ -1,6 +1,7 @@
 package cn.lanqiao.deport_manage.web;
 
 import cn.lanqiao.deport_manage.entity.Record;
+import cn.lanqiao.deport_manage.service.GoodsService;
 import cn.lanqiao.deport_manage.service.RecordService;
 import cn.lanqiao.deport_manage.utils.Result;
 import com.github.pagehelper.PageInfo;
@@ -16,6 +17,8 @@ public class RecordController {
     @Autowired
     private RecordService recordService;
 
+    @Autowired
+    private GoodsService goodsService;
     //获取所有记录接口
     @RequestMapping("/record")
     @ResponseBody
@@ -104,10 +107,10 @@ public class RecordController {
         return Result.fail("服务器内部错误");
     }
     @PostMapping("/updaterecord")
-    public Result updaterecord(Integer id,String state){
+    public Result updaterecord(Integer id,String state,String goodsName,String username, Integer number){
         try {
             int r = recordService.updateState(id,state);
-            recordService.delRecord(id);
+            goodsService.deleteGoods(goodsName,username,number);
             return Result.success(1,"记录添加成功");
         }catch (Exception e){
             e.printStackTrace();

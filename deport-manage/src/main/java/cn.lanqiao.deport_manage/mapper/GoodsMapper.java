@@ -20,6 +20,8 @@ public interface GoodsMapper {
 
     int deleteGoods(int id);
 
+    int delete(@Param("goodsName")String goodsName,@Param("username")String username,@Param("number")int number);
+
     int updateGoods(Goods goods);
 
     List<Goods> getGoodsWithName(String goodsName);
@@ -28,6 +30,7 @@ public interface GoodsMapper {
     Goods selectById(int id);
 
     List<Goods> getGoodsWithUserGoods(@Param("goodsName") String goodsName, @Param("username") String username);
+
 
 
 }
