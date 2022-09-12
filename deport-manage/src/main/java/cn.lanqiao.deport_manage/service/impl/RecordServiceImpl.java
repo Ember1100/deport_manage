@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -23,7 +24,7 @@ public class RecordServiceImpl implements RecordService {
     @Autowired
     private GoodsMapper goodsMapper;
 
-    private static List<Goods> lt = new ArrayList<>();
+    private static List<Goods> lt = new LinkedList<>();
 
     @Override
     public List<Record> getAllRecord() {
