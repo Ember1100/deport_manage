@@ -1,10 +1,8 @@
 package cn.lanqiao.deport_manage.service;
 
 import cn.lanqiao.deport_manage.entity.Goods;
-import cn.lanqiao.deport_manage.entity.Record;
-import cn.lanqiao.deport_manage.entity.User;
 import com.github.pagehelper.PageInfo;
-import org.apache.ibatis.annotations.Param;
+
 
 import java.util.List;
 

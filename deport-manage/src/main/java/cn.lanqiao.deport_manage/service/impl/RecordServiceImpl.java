@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,7 +23,7 @@ public class RecordServiceImpl implements RecordService {
     @Autowired
     private GoodsMapper goodsMapper;
 
-    private static Goods good;
+    private static List<Goods> lt = new ArrayList<>();
 
     @Override
     public List<Record> getAllRecord() {
@@ -51,10 +51,15 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
-    public int updateState(Integer id,String state,String goodsName,String username) {
-        goodsMapper.delete(goodsName,username);
-        recordMapper.updateStateById(id,state);
+    public int updateState(Record record) {
+        goodsMapper.delete(record.getGoodsName(),record.getUsername());
+        recordMapper.updateStateById(record.getId(),record.getState());
         return 1;
+    }
+
+    @Override
+    public int updateRecord(int id, String state) {
+        return recordMapper.updateStateById(id,state);
     }
 
     @Override
@@ -86,18 +91,21 @@ public class RecordServiceImpl implements RecordService {
         record.setType("入库");
         record.setGoodsName(goods.getGoodsName());
         record.setState("暂未处理");
-        good = goods;
+        lt.add(goods);
         return recordMapper.addRecord(record);
     }
 
-
     @Override
-    public int agreeAdd(Integer id, String state) {
-        System.out.println(good);
-        recordMapper.updateStateById(id, state);
-        goodsMapper.addGoods(good);
-        return 1;
+    public int agreeAdd(Record record) {
+        for (Goods gd:lt) {
+            if (gd.getGoodsName().equals(record.getGoodsName()) && gd.getUsername().equals(record.getUsername())){
+                recordMapper.updateStateById(record.getId(),record.getState());
+                goodsMapper.addGoods(gd);
+                lt.remove(gd);
+                return 1;
+            }
+        }
+        return 0;
     }
-
 
 }

@@ -2,7 +2,6 @@ package cn.lanqiao.deport_manage.web;
 
 import cn.lanqiao.deport_manage.entity.Goods;
 import cn.lanqiao.deport_manage.entity.Record;
-import cn.lanqiao.deport_manage.service.GoodsService;
 import cn.lanqiao.deport_manage.service.RecordService;
 import cn.lanqiao.deport_manage.utils.Result;
 import com.github.pagehelper.PageInfo;
@@ -17,9 +16,6 @@ import java.util.List;
 public class RecordController {
     @Autowired
     private RecordService recordService;
-
-    @Autowired
-    private GoodsService goodsService;
 
     //获取所有记录接口
     @RequestMapping("/record")
@@ -48,23 +44,6 @@ public class RecordController {
     }
 
 
-    //添加记录
-    @RequestMapping("/addRecord")
-    public Result addRecord(Record record) {
-        try {
-            int i = recordService.addRecord(record);
-            if (i == 1) {
-                return Result.success(1, "记录添加成功");
-            } else {
-                return Result.fail("记录添加失败");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return Result.fail("服务器内部错误");
-    }
-
-
     //用户查看自己的物品提交记录
     @PostMapping("/getUserRecord")
     public Result getUserRecord(String username) {
@@ -77,7 +56,7 @@ public class RecordController {
         return Result.fail("服务器内部错误");
     }
 
-    //删除一条记录
+    //用户删除一条记录
     @RequestMapping("/delRecord")
     public Result delRecord(int id) {
         try {
@@ -109,20 +88,21 @@ public class RecordController {
         return Result.fail("服务器内部错误");
     }
 
+    //管理员同意后允许物品入库或出库
     @PostMapping("/updaterecord")
-    public Result updaterecord(Integer id, String state, String goodsName, String username,String type) {
+    public Result updaterecord(Record record) {
         try {
-            System.out.println(type);
-            System.out.println(type.equals("入库"));
-            if (type.equals("入库")) {
-                int i = recordService.agreeAdd(id, state);
+            System.out.println(record.getType());
+            System.out.println("入库".equals(record.getType()));
+            if (record.getType().equals("入库")) {
+                int i = recordService.agreeAdd(record);
                 if (i == 1) {
                     return Result.success(1, "操作成功");
                 }
             } else {
-                int i = recordService.updateState(id, state, goodsName, username);
+                int i = recordService.updateState(record);
                 if (i == 1) {
-                    return Result.success(1, "记录添加成功");
+                    return Result.success(1, "操作成功");
                 }
             }
         } catch (Exception e) {
@@ -164,6 +144,9 @@ public class RecordController {
     @PostMapping("/addRec")
     public Result addRec(Goods goods) {
         try {
+           if (goods.getNumber()>1000 && goods.getNumber() ==0) {
+               return Result.fail("请输入有效范围内的库存");
+           }
             int i = recordService.addReUser(goods);
             if (i == 1) {
                 return Result.success(1, "申请添加物品成功");
@@ -173,6 +156,22 @@ public class RecordController {
             e.printStackTrace();
         }
         return Result.fail("服务器内部错误");
+    }
+
+
+    //管理员拒绝只修改记录状态，不允许物品出入库
+    @PostMapping("/refuse")
+    public Result refuse(Record record) {
+       try {
+           int i = recordService.updateRecord(record.getId(), record.getState());
+           if (i==1) {
+              return  Result.success(1,"操作成功");
+           }else {
+               return Result.fail("操作失败");
+           }
+       }catch (Exception e){
+           return Result.fail("服务器内部错误");
+       }
     }
 
 

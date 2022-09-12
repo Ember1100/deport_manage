@@ -1,8 +1,6 @@
 package cn.lanqiao.deport_manage.web;
 
 import cn.lanqiao.deport_manage.entity.Goods;
-import cn.lanqiao.deport_manage.mapper.GoodsMapper;
-import cn.lanqiao.deport_manage.mapper.UserMapper;
 import cn.lanqiao.deport_manage.service.GoodsService;
 import cn.lanqiao.deport_manage.utils.Result;
 import com.github.pagehelper.PageInfo;
@@ -17,12 +15,6 @@ public class GoodsController {
     /*注入业务层*/
     @Autowired
     private GoodsService goodsService;
-
-    @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private GoodsMapper goodsMapper;
 
     //获取所有商品接口
     @RequestMapping("goods")

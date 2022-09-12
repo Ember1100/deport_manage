@@ -13,17 +13,5 @@ public class Record implements Serializable {
     private String type;
     private String state;
 
-    @Override
-    public String toString() {
-        return "Record{" +
-                "id=" + id +
-                ", goodsName='" + goodsName + '\'' +
-                ", username='" + username + '\'' +
-                ", number=" + number +
-                ", type='" + type + '\'' +
-                ", state='" + state + '\'' +
-                '}';
-    }
-
 
 }

@@ -3,8 +3,6 @@ package cn.lanqiao.deport_manage.service;
 import cn.lanqiao.deport_manage.entity.Goods;
 import cn.lanqiao.deport_manage.entity.Record;
 import com.github.pagehelper.PageInfo;
-
-import java.awt.print.Book;
 import java.util.List;
 
 public interface RecordService {
@@ -14,7 +12,9 @@ public interface RecordService {
 
      int addRecord(Record record);
 
-    int updateState(Integer id,String state,String goodsName,String username);
+    int updateState(Record record);
+
+    int updateRecord(int id,String state);
 
     Record select(int id);
 
@@ -30,6 +30,6 @@ public interface RecordService {
 
     int addReUser(Goods goods);
     //同意用户添加物品
-    int agreeAdd(Integer id, String state) ;
+    int agreeAdd(Record record) ;
 
 }
