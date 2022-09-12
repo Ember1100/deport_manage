@@ -3,7 +3,7 @@
     <div class="menu-container">
       <Menu theme="dark" active-name="2">
         <MenuGroup title="仓库">
-          <MenuItem name="1" to='/admin/goods'>
+          <MenuItem name="1" to='/admin/goods' >
           <Icon type="md-document" />
           仓库管理
           </MenuItem>
@@ -43,7 +43,7 @@
   export default {
     data() {
       return {
-
+        addform:{},
       }
     },
     components: {

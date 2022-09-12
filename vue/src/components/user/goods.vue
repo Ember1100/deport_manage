@@ -21,10 +21,10 @@
             <Input v-model="updateform.number" placeholder="不可更改" disabled></Input>
           </FormItem>
           <FormItem label="最大库存" prop="max">
-            <Input v-model="updateform.max" placeholder="请输入最大库存"></Input>
+            <Input v-model="updateform.max" disabled></Input>
           </FormItem>
           <FormItem label="最小库存" prop="min">
-            <Input v-model="updateform.min" placeholder="Enter your name"></Input>
+            <Input v-model="updateform.min" disabled></Input>
           </FormItem>
           <FormItem label="价格" prop="price">
             <Input v-model="updateform.price" placeholder="Enter your e-mail"></Input>
@@ -48,10 +48,10 @@
             <Input v-model="addform.number" placeholder="Enter your name"></Input>
           </FormItem>
           <FormItem label="最大库存">
-            <Input v-model="addform.max" placeholder="Enter your name"></Input>
+            <Input v-model="addform.max" disabled ></Input>
           </FormItem>
           <FormItem label="最小库存">
-            <Input v-model="addform.min" placeholder="Enter your name"></Input>
+            <Input v-model="addform.min" disabled></Input>
           </FormItem>
           <FormItem label="价格">
             <Input v-model="addform.price" placeholder="Enter your e-mail"></Input>
@@ -98,8 +98,8 @@
           goodsName: '',
           context: '',
           number: 0,
-          max: 0,
-          min: 0,
+          max: 1000,
+          min: 1,
           price: 0,
           username: '',
         },
@@ -108,8 +108,8 @@
           goodsName: '',
           context: '',
           number: 0,
-          max: 0,
-          min: 0,
+          max: 1000,
+          min: 1,
           price: 0,
           username: '',
         },
@@ -198,20 +198,6 @@
               return h('div', [
                 h('Button', {
                   props: {
-                    type: 'success',
-                    size: 'small'
-                  },
-                  style: {
-                    marginRight: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      this.record(params)
-                    }
-                  }
-                }, '添加记录'),
-                h('Button', {
-                  props: {
                     type: 'primary',
                     size: 'small'
                   },
@@ -276,15 +262,11 @@
       addModal() {
         this.addmodal = true;
       },
-      record(params) {
-        this.recordmodal = true;
-        this.recordform = params.row;
-      },
 
       add() {
         this.axios({
             method: "post",
-            url: "/api/saveGoods",
+            url: "/api/addRec",
             params: this.addform
           })
           .then(response => {
@@ -364,32 +346,6 @@
               this.$Message.warning("删除失败");
             }
             this.getGoods();
-          })
-          .catch(function(error) {
-            console.log(error);
-          });
-      },
-      recordSubmit() {
-        let postData = this.qs.stringify({
-          goodsName: this.recordform.goodsName,
-          username: this.recordform.username,
-          number: this.recordform.number,
-          type: this.recordform.type,
-          state: '暂未处理',
-        });
-        this.axios({
-            method: "post",
-            url: "/api/addRecord",
-            data: postData
-          })
-          .then(response => {
-            console.log(response.data);
-            if (response.data.ok == 1) {
-              this.$Message.success("申请成功");
-              this.getGoods();
-            } else {
-              this.$Message.warning("申请失败");
-            }
           })
           .catch(function(error) {
             console.log(error);

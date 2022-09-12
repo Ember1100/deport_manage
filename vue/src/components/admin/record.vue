@@ -115,7 +115,9 @@
           let postData = this.qs.stringify({
             id: params.row.id,
             goodsName: params.row.goodsName,
-            username: params.row.username
+            username: params.row.username,
+            number: params.row.number,
+            type: params.row.type,
           });
           this.axios({
               method: "post",
@@ -148,10 +150,10 @@
                     })
                     .then(response => {
                       console.log(response.data);
+                      console.log(1111);
                       if (response.data.ok == 1) {
                         this.$Message.success("同意成功");
                         this.initTableData();
-                        this.getGoods();
                       } else {
                         console.log(response.data);
                         this.$Message.warning("同意失败");
@@ -169,8 +171,9 @@
               console.log(error);
             });
           }
-        this.getRecord();
+         this.initTableData();
       },
+
       refuse(params) {
         if (params.row.state == "暂未处理") {
           let postData = this.qs.stringify({
@@ -183,7 +186,7 @@
           });
           this.axios({
               method: "post",
-              url: "/api/updaterecord",
+              url: "/api/refuse",
               data: postData
             })
             .then(response => {
@@ -191,7 +194,6 @@
               if (response.data.ok == 1) {
                 this.$Message.success("拒绝成功");
                 this.initTableData();
-                this.getGoods();
               } else {
                 console.log(response.data);
                 this.$Message.warning("拒绝失败");
@@ -200,10 +202,10 @@
             .catch(function (error) {
               console.log(error);
             });
-          this.getRecord();
+           this.initTableData();
         }
-
       },
+
       update() {
         let postData = this.qs.stringify({
           goodsName: this.updateform.goodsName,

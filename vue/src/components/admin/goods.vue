@@ -21,13 +21,13 @@
             <Input v-model="updateform.context" placeholder="Enter your e-mail"></Input>
           </FormItem>
           <FormItem label="数量" prop="number">
-            <Input v-model="updateform.number" placeholder="Enter your name"></Input>
+            <Input v-model="updateform.number" disabled ></Input>
           </FormItem>
           <FormItem label="最大库存" prop="max">
-            <Input v-model="updateform.max" placeholder="Enter your name"></Input>
+            <Input v-model="updateform.max" disabled> </Input>
           </FormItem>
           <FormItem label="最小库存" prop="min">
-            <Input v-model="updateform.min" placeholder="Enter your name"></Input>
+            <Input v-model="updateform.min" disabled></Input>
           </FormItem>
           <FormItem label="价格" prop="price">
             <Input v-model="updateform.price" placeholder="Enter your e-mail"></Input>
@@ -51,10 +51,10 @@
             <Input v-model="addform.number" placeholder="Enter your name"></Input>
           </FormItem>
           <FormItem label="最大库存">
-            <Input v-model="addform.max" placeholder="Enter your name"></Input>
+            <Input v-model="addform.max" disabled ></Input>
           </FormItem>
           <FormItem label="最小库存">
-            <Input v-model="addform.min" placeholder="Enter your name"></Input>
+            <Input v-model="addform.min" disabled ></Input>
           </FormItem>
           <FormItem label="价格">
             <Input v-model="addform.price" placeholder="Enter your e-mail"></Input>
@@ -85,8 +85,8 @@
           goodsName: '',
           context: '',
           number: 0,
-          max: 0,
-          min: 0,
+          max: 1000,
+          min: 1,
           price: 0,
           username: '',
         },
@@ -247,16 +247,17 @@
         });
         this.axios({
             method: "post",
-            url: "/api/saveGoods",
+            url: "/api/addRec",
             data: postData
           })
           .then(response => {
             console.log(response.data);
+            console.log(this.addform)
             if (response.data.ok == 1) {
-              this.$Message.success("添加成功");
+              this.$Message.success("申请添加物品成功");
               this.initTableData()
             } else {
-              this.$Message.warning("添加失败");
+              this.$Message.warning("申请添加物品失败");
             }
           })
           .catch(function(error) {
@@ -332,10 +333,10 @@
           .then(response => {
             console.log(response.data);
             if (response.data.ok == 1) {
-              this.$Message.success("删除成功");
+              this.$Message.success("物品申请删除成功");
               this.initTableData();
             } else {
-              this.$Message.warning("删除失败");
+              this.$Message.warning("物品申请删除失败");
             }
             this.initTableData();
           })
@@ -381,6 +382,6 @@
     padding: 20px;
     font-size: 12px;
     line-height: 2;
-    background-image: url(../../img/modal.png)
+   /* background-image: url(../../img/modal.png) */
   }
 </style>
