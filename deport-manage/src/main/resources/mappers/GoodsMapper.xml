@@ -61,6 +61,12 @@
         select <include refid="Base"></include> from goods where id = #{id}
     </select>
 
+    <select id="selectByRecord" resultType="Goods">
+        select <include refid="Base"></include> from goods where goodsName = #{goodsName} and username = #{username}
+    </select>
 
+    <update id="updateGNum" >
+        update goods set number = number - #{number} where id = #{id}
+    </update>
 
 </mapper>

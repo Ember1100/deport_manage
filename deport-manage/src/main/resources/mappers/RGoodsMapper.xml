@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lanqiao.deport_manage.mapper.RGoodsMapper">
+
+    <sql id="Base">
+        aid,goodsName,context,number,max,min,price,username
+    </sql>
+
+
+  <insert id="addRGoods" >
+      insert into `rgoods`(goodsName, context, number, max, min, price, username)
+      values (#{goodsName}, #{context}, #{number}, #{max}, #{min}, #{price}, #{username})
+  </insert>
+
+    <select id="getRGoods" resultType="RGoods">
+        select <include refid="Base"> </include> from rgoods
+                 where goodsName = #{goodsName} and username = #{username}
+    </select>
+
+    <delete id="deleteRGoods">
+        delete
+        from rgoods
+        where aid = #{aid}
+    </delete>
+
+</mapper>

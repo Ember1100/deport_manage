@@ -69,22 +69,6 @@ public class GoodsController {
         return Result.fail("服务器内部错误");
     }
 
-    //用户将物品取出
-    @RequestMapping("/deletegoods")
-    public Result deleteGoods(int id) {
-        try {
-            System.out.println(id);
-            int r = goodsService.deleteAddOne(id);
-            if (r == 1) {
-                return Result.success(1, "物品取出成功");
-            } else {
-                return Result.fail("物品取出失败");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return Result.fail("服务器内部错误");
-    }
 
     //按物品名字查找物品
     @RequestMapping("/searchGoods")
@@ -93,22 +77,6 @@ public class GoodsController {
             List<Goods> goods = goodsService.getGoodsWithName(goodsName);
             return Result.success(goods);
         }catch (Exception e) {
-            e.printStackTrace();
-        }
-        return Result.fail("服务器内部错误");
-    }
-
-    @RequestMapping("/deleteuser")
-    public Result deleteuser(int id) {
-        try {
-            System.out.println(id);
-            int r = goodsService.deleteAddOne(id);
-            if (r == 1) {
-                return Result.success(1, "物品删除成功");
-            } else {
-                return Result.fail("物品删除失败");
-            }
-        } catch (Exception e) {
             e.printStackTrace();
         }
         return Result.fail("服务器内部错误");

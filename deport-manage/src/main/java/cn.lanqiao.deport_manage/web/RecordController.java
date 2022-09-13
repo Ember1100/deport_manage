@@ -88,6 +88,24 @@ public class RecordController {
         return Result.fail("服务器内部错误");
     }
 
+    //用户提交出库申请的记录
+    @RequestMapping("/deleteGoods")
+    public Result deleteGoods(int id,int number) {
+        try {
+            System.out.println(id);
+            int r = recordService.deleteAddOne(id,number);
+            if (r == 1) {
+                return Result.success(1, "申请物品出库成功");
+            } else {
+                return Result.fail("申请物品出库失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.fail("服务器内部错误");
+    }
+
+
     //管理员同意后允许物品入库或出库
     @PostMapping("/updaterecord")
     public Result updaterecord(Record record) {
@@ -100,7 +118,7 @@ public class RecordController {
                     return Result.success(1, "操作成功");
                 }
             } else {
-                int i = recordService.updateState(record);
+                int i = recordService.agreeRemove(record);
                 if (i == 1) {
                     return Result.success(1, "操作成功");
                 }

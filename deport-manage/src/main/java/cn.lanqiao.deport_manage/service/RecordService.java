@@ -10,7 +10,6 @@ public interface RecordService {
 
     PageInfo<Record> getRecordPage(int pageNo, int pageSize);
 
-     int addRecord(Record record);
 
     int updateState(Record record);
 
@@ -23,7 +22,7 @@ public interface RecordService {
 
     List<Record> getUserRecord(String username);
 
-
+    int deleteAddOne(int id,int number);
     int delRecord(int id);
 
     int delRecords(List<Integer> ids);
@@ -31,5 +30,8 @@ public interface RecordService {
     int addReUser(Goods goods);
     //同意用户添加物品
     int agreeAdd(Record record) ;
+
+    //同意出库请求
+    int agreeRemove(Record record);
 
 }

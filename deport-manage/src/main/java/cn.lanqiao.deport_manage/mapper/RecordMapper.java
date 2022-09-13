@@ -25,5 +25,4 @@ public interface RecordMapper {
     int delRecord(int id);
     int delRecords(List<Integer> ids);
 
-
 }

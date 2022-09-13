@@ -26,8 +26,10 @@ public interface GoodsMapper {
 
     Goods selectById(int id);
 
+    Goods selectByRecord(@Param("goodsName")String goodsName,@Param("username") String username);
+
     List<Goods> getGoodsWithUserGoods(@Param("goodsName") String goodsName, @Param("username") String username);
 
-
+   int updateGNum(@Param("number") int number,@Param("id") int id);
 
 }

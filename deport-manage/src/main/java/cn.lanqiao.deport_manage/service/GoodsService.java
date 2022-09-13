@@ -9,8 +9,6 @@ import java.util.List;
 public interface GoodsService {
     List<Goods> getAllGoods();
 
-
-
     PageInfo<Goods> getPage(int pageNo, int pageSize);
 
     List<Goods> getGoodsWithUsername(String username);
@@ -23,8 +21,7 @@ public interface GoodsService {
 
     List<Goods> getGoodsWithName(String goodsName);
 
-    int deleteAddOne(int id);
-
     List<Goods> getGoodsWithUserGoods(String goodsName,String username);
+
 
 }

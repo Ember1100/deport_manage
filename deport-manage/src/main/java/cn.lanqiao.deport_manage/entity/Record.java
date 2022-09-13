@@ -13,5 +13,4 @@ public class Record implements Serializable {
     private String type;
     private String state;
 
-
 }

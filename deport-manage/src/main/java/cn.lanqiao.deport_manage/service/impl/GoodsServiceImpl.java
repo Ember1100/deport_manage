@@ -64,23 +64,14 @@ public class GoodsServiceImpl implements GoodsService {
         return goodsMapper.getGoodsWithName(goodsName);
     }
 
-    @Override
-    public int deleteAddOne(int id) {
-        Goods goods = goodsMapper.selectById(id);
-        Record record = new Record();
-        record.setGoodsName(goods.getGoodsName());
-        record.setUsername(goods.getUsername());
-        record.setNumber(goods.getNumber());
-        record.setType("出库");
-        record.setState("暂未处理");
-        recordMapper.addRecord(record);
-        return 1;
-    }
+
 
     @Override
     public List<Goods> getGoodsWithUserGoods(String goodsName, String username) {
         return goodsMapper.getGoodsWithUserGoods(goodsName,username);
     }
+
+
 
 
 }
