@@ -4,7 +4,7 @@
       <div class="search"><Input v-model="goodsName" size="large" placeholder="请输入物品名" style="width:500px" />
         <Button type="primary" @click="search" style="margin-left:5px;">查找</Button><Button type="primary"
           @click="viewAll" style="margin-left:5px;margin-right:5px;">显示所有</Button><Button type="primary"
-          @click="addModal">增加</Button>
+          @click="addModal">入库</Button>
       </div>
     </div>
     <Table :columns="columns" :data="data" height="700"></Table>
@@ -27,10 +27,10 @@
             <Input v-model="updateform.min" disabled></Input>
           </FormItem>
           <FormItem label="价格" prop="price">
-            <Input v-model="updateform.price" placeholder="Enter your e-mail"></Input>
+            <Input v-model="updateform.price" placeholder="Enter your price"></Input>
           </FormItem>
           <FormItem label="所属人">
-            <Input v-model="updateform.username" placeholder="Enter your e-mail"></Input>
+            <Input v-model="updateform.username" placeholder="Enter your username"></Input>
           </FormItem>
         </Form>
       </div>
@@ -39,13 +39,13 @@
       <div>
         <Form ref="addform" :model="updateform" :label-width="80">
           <FormItem label="物品名">
-            <Input v-model="addform.goodsName" placeholder="Enter your name"></Input>
+            <Input v-model="addform.goodsName" placeholder="Enter your goodsName"></Input>
           </FormItem>
           <FormItem label="简介">
-            <Input v-model="addform.context" placeholder="Enter your e-mail"></Input>
+            <Input v-model="addform.context" placeholder="Enter your context"></Input>
           </FormItem>
           <FormItem label="数量">
-            <Input v-model="addform.number" placeholder="Enter your name"></Input>
+            <Input v-model="addform.number" placeholder="Enter your number"></Input>
           </FormItem>
           <FormItem label="最大库存">
             <Input v-model="addform.max" disabled ></Input>
@@ -54,35 +54,28 @@
             <Input v-model="addform.min" disabled></Input>
           </FormItem>
           <FormItem label="价格">
-            <Input v-model="addform.price" placeholder="Enter your e-mail"></Input>
+            <Input v-model="addform.price" placeholder="Enter your price"></Input>
           </FormItem>
           <FormItem label="所属人">
-            <Input v-model="addform.username" placeholder="Enter your e-mail"></Input>
+            <Input v-model="addform.username" placeholder="Enter your username"></Input>
           </FormItem>
         </Form>
       </div>
     </Modal>
-    <Modal v-model="recordmodal" @on-ok="recordSubmit()" @on-cancel="cancel">
-      <div>
-        <Form ref="recordmodal" :model="recordform" :label-width="80">
-          <FormItem label="物品名">
-            <Input v-model="recordform.goodsName" disabled></Input>
-          </FormItem>
-          <FormItem label="所属人">
-            <Input v-model="recordform.username" disabled></Input>
-          </FormItem>
-          <FormItem label="类型">
-            <RadioGroup v-model="recordform.type">
-              <Radio label="出库"></Radio>
-              <Radio label="入库"></Radio>
-            </RadioGroup>
-          </FormItem>
-          <FormItem label="数量">
-            <Input v-model="recordform.number" placeholder="请输入数量"></Input>
-          </FormItem>
-        </Form>
+
+
+<Modal v-model="deletemodal" @on-ok="remove()" @on-cancel="cancel" >
+      <div class="modal">
+        <form ref="updateform" :model="updateform">
+          <p>请输入出库数量：</p>
+          <Input v-model="updateform.number" ></Input>
+          <!-- <p style="font-size: 22px;">确定提交
+          <span style="color: blue;">{{updateform.goodsName}}</span>
+          出库请求吗?</p> -->
+        </form>
       </div>
     </Modal>
+
   </div>
 </template>
 <script>
@@ -90,10 +83,9 @@
     data() {
       return {
         goodsName: '',
-        recordmodal: false,
         addmodal: false,
         updatemodal: false,
-
+        deletemodal:false,
         addform: {
           goodsName: '',
           context: '',
@@ -217,10 +209,10 @@
                   },
                   on: {
                     click: () => {
-                      this.remove(params)
+                      this.delete(params)
                     }
                   }
-                }, '删除')
+                }, '出库')
               ]);
             }
           }
@@ -329,21 +321,28 @@
             console.log(error);
           });
       },
-      remove(params) {
+
+      delete(params) {
+       this.updateform = params.row;
+       this.deletemodal = true;
+      },
+
+      remove() {
         let postData = this.qs.stringify({
-          id: params.row.id,
+          id: this.updateform.id,
+          number: this.updateform.number,
         });
         this.axios({
             method: "post",
-            url: "/api/deletegoods",
+            url: "/api/deleteGoods",
             data: postData
           })
           .then(response => {
             console.log(response.data);
             if (response.data.ok == 1) {
-              this.$Message.success("删除成功");
+              this.$Message.success("申请提交成功");
             } else {
-              this.$Message.warning("删除失败");
+              this.$Message.warning("申请提交失败");
             }
             this.getGoods();
           })

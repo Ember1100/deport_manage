@@ -1,8 +1,32 @@
 <template>
 
   <div>
-    <Page :page-size="page.pageSize" :total="page.total" :current="page.pageNo" @on-change="changePage" ></Page>
+    <Page :page-size="page.pageSize" :total="page.total" :current="page.pageNo" @on-change="changePage"></Page>
     <Table :columns="columns" :data="tableData" height="700"></Table>
+
+    <Modal v-model="agreemodal" @on-ok="commit()" @on-cancel="cancel">
+      <div class="modal">
+        <form ref="updateform" :model="updateform">
+          <p>确定同意用户<span style="color: red;">{{updateform.username}}</span>请求吗</p>
+          <!-- <p style="font-size: 22px;">确定提交
+          <span style="color: blue;">{{updateform.goodsName}}</span>
+          出库请求吗?</p> -->
+        </form>
+      </div>
+    </Modal>
+
+
+    <Modal v-model="denymodal" @on-ok="refuse()" @on-cancel="cancel">
+      <div class="modal">
+        <form ref="updateform" :model="updateform">
+          <p>确定拒绝用户<span style="color: red;">{{updateform.username}}</span>请求吗</p>
+          <!-- <p style="font-size: 22px;">确定提交
+          <span style="color: blue;">{{updateform.goodsName}}</span>
+          出库请求吗?</p> -->
+        </form>
+      </div>
+    </Modal>
+
   </div>
 
 </template>
@@ -11,6 +35,8 @@
   export default {
     data() {
       return {
+        agreemodal: false,
+        denymodal: false,
         updateform: {
           goodsName: '',
           context: '',
@@ -20,8 +46,9 @@
           price: 0,
           username: '',
         },
+
         page: { //分页参数
-          pageNo:1,
+          pageNo: 1,
           pageSize: 5,
           total: 0
         },
@@ -68,7 +95,7 @@
                   },
                   on: {
                     click: () => {
-                      this.commit(params)
+                      this.agree(params)
                     }
                   }
                 }, '同意'),
@@ -79,7 +106,7 @@
                   },
                   on: {
                     click: () => {
-                      this.refuse(params)
+                      this.deny(params)
                     }
                   }
                 }, '拒绝')
@@ -106,82 +133,91 @@
           .then(response => {
             this.data = response.data.data;
           })
-          .catch(function (error) {
+          .catch(function(error) {
             console.log(error);
           });
       },
-      commit(params) {
-          if (params.row.state == "暂未处理") {
-          let postData = this.qs.stringify({
-            id: params.row.id,
-            goodsName: params.row.goodsName,
-            username: params.row.username,
-            number: params.row.number,
-            type: params.row.type,
-          });
-          this.axios({
-              method: "post",
-              url: "/api/searchgoodsbyusergoods",
-              data: postData
-            })
-            .then(response => {
-              console.log(response.data);
-              if (response.data.ok == 1) {
-                if (response.data.data.length != 0) {
-                  this.updateform = response.data.data
-                  console.log(this.updateform);
-                  if (params.row.type == "出库")
-                    this.updateform.number = this.updateform.number - params.row.number;
-                  else
-                    this.updateform.number = this.updateform.number + params.row.number;
-                  this.update();
-                  let postData = this.qs.stringify({
-                    id: params.row.id,
-                    goodsName: params.row.goodsName,
-                    username: params.row.username,
-                    number: params.row.number,
-                    type: params.row.type,
-                    state: "已批准",
-                  });
-                  this.axios({
-                      method: "post",
-                      url: "/api/updaterecord",
-                      data: postData
-                    })
-                    .then(response => {
+      agree(params) {
+        console.log(params.row.state)
+        if (params.row.state == "暂未处理") {
+          this.agreemodal = true;
+          this.updateform = params.row;
+        }
+      },
+      commit() {
+        let postData = this.qs.stringify({
+          id: this.updateform.id,
+          goodsName: this.updateform.goodsName,
+          username: this.updateform.username,
+          number: this.updateform.number,
+          type: this.updateform.type,
+        });
+        this.axios({
+            method: "post",
+            url: "/api/searchgoodsbyusergoods",
+            data: postData
+          })
+          .then(response => {
+            console.log(response.data);
+            if (response.data.ok == 1) {
+              if (response.data.data.length != 0) {
+                this.updateform = response.data.data
+                console.log(this.updateform);
+                this.update();
+                let postData = this.qs.stringify({
+                  id: this.updateform.id,
+                  goodsName: this.updateform.goodsName,
+                  username: this.updateform.username,
+                  number: this.updateform.number,
+                  type: this.updateform.type,
+                  state: "已批准",
+                });
+                this.axios({
+                    method: "post",
+                    url: "/api/updaterecord",
+                    data: postData
+                  })
+                  .then(response => {
+                    console.log(response.data);
+                    console.log(1111);
+                    if (response.data.ok == 1) {
+                      this.$Message.success("同意成功");
+                      this.initTableData();
+                    } else {
                       console.log(response.data);
-                      console.log(1111);
-                      if (response.data.ok == 1) {
-                        this.$Message.success("同意成功");
-                        this.initTableData();
-                      } else {
-                        console.log(response.data);
-                        this.$Message.warning("同意失败");
-                      }
-                    })
-                    .catch(function (error) {
-                      console.log(error);
-                    });
-                }
-              } else {
-                this.$Message.warning("查找失败");
+                      this.$Message.warning("同意失败");
+                    }
+                  })
+                  .catch(function(error) {
+                    console.log(error);
+                  });
               }
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
-          }
-         this.initTableData();
+            } else {
+              this.$Message.warning("查找失败");
+            }
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+        this.initTableData();
       },
 
-      refuse(params) {
+
+      deny(params) {
         if (params.row.state == "暂未处理") {
+          this.denymodal = true;
+          this.updateform = params.row;
+        }
+      },
+
+
+      refuse() {
           let postData = this.qs.stringify({
-            id: params.row.id,
-            goodsName: params.row.goodsName,
-            username: params.row.username,
-            number: params.row.number,
-            type: params.row.type,
+            id:this.updateform.id,
+            goodsName: this.updateform.goodsName,
+            username: this.updateform.username,
+            number: this.updateform.number,
+            type: this.updateform.type,
             state: '不予批准',
           });
           this.axios({
@@ -199,11 +235,10 @@
                 this.$Message.warning("拒绝失败");
               }
             })
-            .catch(function (error) {
+            .catch(function(error) {
               console.log(error);
             });
-           this.initTableData();
-        }
+          this.initTableData();
       },
 
       update() {
@@ -223,7 +258,7 @@
             data: postData
           })
           .then(response => {})
-          .catch(function (error) {
+          .catch(function(error) {
             console.log(error);
           });
       },
@@ -231,31 +266,31 @@
       initTableData() {
         console.log("pageNo :  " + this.page.pageNo)
         this.axios({
-          method:"post",
-          url:"/api/getRecordPage",
-          params:this.page
+            method: "post",
+            url: "/api/getRecordPage",
+            params: this.page
           })
           .then(response => {
             console.log(response.data);
             if (response.data.ok == 1) {
-                this.page.total = response.data.data.total,
+              this.page.total = response.data.data.total,
                 this.tableData = response.data.data.list;
             }
           })
       },
+      cancel() {},
 
-         // 改变当前页
-          changePage(index) {
-              this.page.pageNo = index;
-              this.initTableData();
-          },
+      // 改变当前页
+      changePage(index) {
+        this.page.pageNo = index;
+        this.initTableData();
+      },
     },
   }
-
 </script>
 
 <style scoped>
-.action-container {
+  .action-container {
     margin-top: 10px;
     margin-bottom: 10px;
   }

@@ -17,10 +17,10 @@
             <Input v-model="updateform.username" placeholder="Enter your name" disabled></Input>
           </FormItem>
           <FormItem label="昵称" prop="nickname">
-            <Input v-model="updateform.nickname" placeholder="Enter your e-mail"></Input>
+            <Input v-model="updateform.nickname" placeholder="Enter your nickname"></Input>
           </FormItem>
           <FormItem label="密码" prop="password">
-            <Input v-model="updateform.password" type="password" placeholder="Enter your name"></Input>
+            <Input v-model="updateform.password" type="password" placeholder="Enter your password"></Input>
           </FormItem>
           <FormItem label="性别" prop="sex">
             <RadioGroup v-model="updateform.sex">
@@ -29,13 +29,13 @@
             </RadioGroup>
           </FormItem>
           <FormItem label="号码" prop="phone">
-            <Input v-model="updateform.phone" placeholder="Enter your name"></Input>
+            <Input v-model="updateform.phone" placeholder="Enter your phone"></Input>
           </FormItem>
           <FormItem label="邮箱" prop="email">
             <Input v-model="updateform.email" placeholder="Enter your e-mail"></Input>
           </FormItem>
           <FormItem label="地址">
-            <Input v-model="updateform.address" placeholder="Enter your e-mail"></Input>
+            <Input v-model="updateform.address" placeholder="Enter your address"></Input>
           </FormItem>
         </Form>
       </div>
@@ -70,6 +70,12 @@
         </Form>
       </div>
     </Modal>
+
+    <Modal v-model="deletemodal" @on-ok="remove()" @on-cancel="cancel" >
+      <form ref="updateform" :model="updateform">
+        <p style="font-size: 22px;">确定删除用户<span>{{updateform.username}}</span>吗</p>
+      </form>
+    </Modal>
   </div>
 </template>
 <script>
@@ -79,6 +85,7 @@
         username: '',
         addmodal: false,
         updatemodal: false,
+        deletemodal:false,
         page: { //分页参数
           pageNo: 1,
           pageSize: 5,
@@ -227,7 +234,7 @@
                   },
                   on: {
                     click: () => {
-                      this.remove(params)
+                      this.delete(params)
                     }
                   }
                 }, '删除')
@@ -346,10 +353,14 @@
             console.log(error);
           });
       },
-      remove(params) {
-        console.log(params.row.id);
+      delete(params) {
+        this.deletemodal = true;
+        this.updateform = params.row;
+      },
+
+      remove() {
         let postData = this.qs.stringify({
-          id: params.row.id,
+          id: this.updateform.id,
         });
         this.axios({
             method: "post",
@@ -402,4 +413,8 @@
     margin-top: 10px;
     margin-bottom: 10px;
   }
+
+ p span {
+   color: orange;
+ }
 </style>

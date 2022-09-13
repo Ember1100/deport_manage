@@ -8,8 +8,9 @@
         <Button type="primary" @click="addModal">入库</Button>
       </div>
     </div>
-     <Page :page-size="page.pageSize" :total="page.total" :current="page.pageNo" @on-change="changePage" ></Page>
+    <Page :page-size="page.pageSize" :total="page.total" :current="page.pageNo" @on-change="changePage"></Page>
     <Table :columns="columns" :data="tableData" height="700" ref="table"> </Table>
+
     <Modal v-model="updatemodal" @on-ok="handleSubmit()" @on-cancel="cancel">
       <div class="modal">
         <Form ref="updateform" :model="updateform" :rules="ruleValidate" style="margin-top:20px;margin-bottom:20px;"
@@ -18,10 +19,10 @@
             <Input v-model="updateform.goodsName" placeholder="Enter your name"></Input>
           </FormItem>
           <FormItem label="简介">
-            <Input v-model="updateform.context" placeholder="Enter your e-mail"></Input>
+            <Input v-model="updateform.context" placeholder="Enter your context"></Input>
           </FormItem>
           <FormItem label="数量" prop="number">
-            <Input v-model="updateform.number" disabled ></Input>
+            <Input v-model="updateform.number" disabled></Input>
           </FormItem>
           <FormItem label="最大库存" prop="max">
             <Input v-model="updateform.max" disabled> </Input>
@@ -33,11 +34,12 @@
             <Input v-model="updateform.price" placeholder="Enter your e-mail"></Input>
           </FormItem>
           <FormItem label="所属人">
-            <Input v-model="updateform.username" placeholder="Enter your e-mail"></Input>
+            <Input v-model="updateform.username" placeholder="Enter your username"></Input>
           </FormItem>
         </Form>
       </div>
     </Modal>
+
     <Modal v-model="addmodal" @on-ok="add()" @on-cancel="cancel">
       <div class="modal">
         <Form ref="addform" :model="updateform" :label-width="80" style="margin-top:20px;margin-bottom:20px;">
@@ -51,10 +53,10 @@
             <Input v-model="addform.number" placeholder="Enter your name"></Input>
           </FormItem>
           <FormItem label="最大库存">
-            <Input v-model="addform.max" disabled ></Input>
+            <Input v-model="addform.max" disabled></Input>
           </FormItem>
           <FormItem label="最小库存">
-            <Input v-model="addform.min" disabled ></Input>
+            <Input v-model="addform.min" disabled></Input>
           </FormItem>
           <FormItem label="价格">
             <Input v-model="addform.price" placeholder="Enter your e-mail"></Input>
@@ -63,6 +65,18 @@
             <Input v-model="addform.username" placeholder="Enter your e-mail"></Input>
           </FormItem>
         </Form>
+      </div>
+    </Modal>
+
+    <Modal v-model="deletemodal" @on-ok="remove()" @on-cancel="cancel" >
+      <div class="modal">
+        <form ref="updateform" :model="updateform">
+          <p>请输入出库数量：</p>
+          <Input v-model="updateform.number" ></Input>
+          <!-- <p style="font-size: 22px;">确定提交
+          <span style="color: blue;">{{updateform.goodsName}}</span>
+          出库请求吗?</p> -->
+        </form>
       </div>
     </Modal>
 
@@ -76,8 +90,9 @@
         goodsName: '',
         addmodal: false,
         updatemodal: false,
+        deletemodal:false,
         page: { //分页参数
-          pageNo:1,
+          pageNo: 1,
           pageSize: 5,
           total: 0
         },
@@ -198,8 +213,9 @@
                   },
                   on: {
                     click: () => {
-                      this.remove(params)
-                    }
+                       this.delete(params)
+                    },
+
                   }
                 }, '出库')
               ]);
@@ -254,10 +270,10 @@
             console.log(response.data);
             console.log(this.addform)
             if (response.data.ok == 1) {
-              this.$Message.success("申请添加物品成功");
+              this.$Message.success("申请提交入库成功");
               this.initTableData()
             } else {
-              this.$Message.warning("申请添加物品失败");
+              this.$Message.warning("申请提交入库失败");
             }
           })
           .catch(function(error) {
@@ -286,6 +302,7 @@
             console.log(error);
           });
       },
+
       update(params) {
         this.updateform = params.row;
         this.updatemodal = true;
@@ -320,23 +337,29 @@
             console.log(error);
           });
       },
-      remove(params) {
-        console.log(params.row.goodsName);
+
+      delete(params) {
+        this.deletemodal = true;
+        this.updateform = params.row;
+      },
+
+      remove() {
         let postData = this.qs.stringify({
-          id: params.row.id,
+           id: this.updateform.id,
+           number:this.updateform.number,
         });
         this.axios({
             method: "post",
-            url: "/api/deletegoods",
+            url: "/api/deleteGoods",
             data: postData
           })
           .then(response => {
             console.log(response.data);
             if (response.data.ok == 1) {
-              this.$Message.success("物品申请删除成功");
+              this.$Message.success("申请提交出库成功");
               this.initTableData();
             } else {
-              this.$Message.warning("物品申请删除失败");
+              this.$Message.warning("申请提交出库失败");
             }
             this.initTableData();
           })
@@ -344,30 +367,31 @@
             console.log(error);
           });
       },
+
       cancel() {},
 
       //初始化table数据
       initTableData() {
         console.log("pageNo :  " + this.page.pageNo)
         this.axios({
-          method:"get",
-          url:"/api/goodsGetPage",
-          params:this.page
+            method: "get",
+            url: "/api/goodsGetPage",
+            params: this.page
           })
           .then(response => {
             console.log(response.data);
             if (response.data.ok == 1) {
-                this.page.total = response.data.data.total,
+              this.page.total = response.data.data.total,
                 this.tableData = response.data.data.list;
             }
           })
       },
 
-         // 改变当前页
-          changePage(index) {
-              this.page.pageNo = index;
-              this.initTableData();
-          },
+      // 改变当前页
+      changePage(index) {
+        this.page.pageNo = index;
+        this.initTableData();
+      },
     },
   }
 </script>
@@ -382,6 +406,9 @@
     padding: 20px;
     font-size: 12px;
     line-height: 2;
-   /* background-image: url(../../img/modal.png) */
+    /* background-image: url(../../img/modal.png) */
+  }
+  p span {
+    color: black;
   }
 </style>

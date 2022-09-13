@@ -2,6 +2,12 @@
   <div style="width: 1200px;">
 
     <Table :columns="columns" :data="data" height="700"></Table>
+
+    <Modal v-model="deletemodal" @on-ok="remove()" @on-cancel="cancel">
+      <form ref="deleteform" :model="deleteform">
+        <p style="font-size: 22px;">确定删除这条记录吗?</p>
+      </form>
+    </Modal>
   </div>
 </template>
 
@@ -9,8 +15,17 @@
   export default {
     data() {
       return {
-        modal1: false,
+        deletemodal: false,
         p: false,
+        deleteform: {
+          goodsName: '',
+          context: '',
+          number: 0,
+          max: 0,
+          min: 0,
+          price: 0,
+          username: '',
+        },
         columns: [{
             type: 'selection',
           },
@@ -47,7 +62,7 @@
                   },
                   on: {
                     click: () => {
-                          this.remove(params)
+                      this.delete(params)
                     },
 
                   }
@@ -92,9 +107,15 @@
           });
       },
 
-      remove(params) {
+      delete(params) {
+        this.deleteform = params.row;
+        this.deletemodal = true;
+        console.log(params)
+      },
+      cancel() {},
+      remove() {
         let postData = this.qs.stringify({
-          id: params.row.id,
+          id: this.deleteform.id,
         });
         this.axios({
             method: "post",
