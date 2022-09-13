@@ -126,6 +126,7 @@ public class RecordServiceImpl implements RecordService {
            gd.setPrice(rGoods.getPrice());
            recordMapper.updateStateById(record.getId(), record.getState());
            goodsMapper.addGoods(gd);
+           rGoodsMapper.deleteRGoods(rGoods.getAid());
            return 1;
        }
 
