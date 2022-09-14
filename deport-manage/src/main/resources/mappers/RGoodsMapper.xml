@@ -23,4 +23,8 @@
         where aid = #{aid}
     </delete>
 
+    <delete id="deleteR">
+        delete from rgoods where goodsName = #{goodsName} and username = #{username}
+    </delete>
+
 </mapper>

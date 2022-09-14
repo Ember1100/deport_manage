@@ -112,17 +112,22 @@ public class RecordController {
         try {
             System.out.println(record.getType());
             System.out.println("入库".equals(record.getType()));
+            int i;
             if (record.getType().equals("入库")) {
-                int i = recordService.agreeAdd(record);
-                if (i == 1) {
-                    return Result.success(1, "操作成功");
+                i = recordService.agreeAdd(record);
+                if (i==0) {
+                    return Result.fail("物品数量已超出最大库存数");
                 }
             } else {
-                int i = recordService.agreeRemove(record);
-                if (i == 1) {
-                    return Result.success(1, "操作成功");
-                }
+                i = recordService.agreeRemove(record);
             }
+
+            if (i == 1) {
+                return Result.success(1, "操作成功");
+            } else {
+                return Result.fail("操作失败");
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -150,9 +155,13 @@ public class RecordController {
             Record r = recordService.select(record.getId());
             if (r != null) {
                 int a = recordService.updateGoodsNumber(record);
+                if (a==1) {
+                    return Result.success(1, "记录添加成功");
+                }
             } else {
+                return Result.fail("操作失败");
             }
-            return Result.success(1, "记录添加成功");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -162,7 +171,7 @@ public class RecordController {
     @PostMapping("/addRec")
     public Result addRec(Goods goods) {
         try {
-           if (goods.getNumber()>1000 && goods.getNumber() ==0) {
+           if (goods.getNumber()>1000 || goods.getNumber() ==0) {
                return Result.fail("请输入有效范围内的库存");
            }
             int i = recordService.addReUser(goods);
@@ -177,11 +186,11 @@ public class RecordController {
     }
 
 
-    //管理员拒绝只修改记录状态，不允许物品出入库
+    //拒绝接口
     @PostMapping("/refuse")
     public Result refuse(Record record) {
        try {
-           int i = recordService.updateRecord(record.getId(), record.getState());
+           int i = recordService.updateRecord(record);
            if (i==1) {
               return  Result.success(1,"操作成功");
            }else {

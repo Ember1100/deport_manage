@@ -10,4 +10,6 @@ public interface RGoodsMapper {
     RGoods getRGoods(@Param("goodsName") String goodsName,@Param("username") String username);
 
     int deleteRGoods(int aid);
+
+    int deleteR(@Param("goodsName") String goodsName,@Param("username") String username);
 }

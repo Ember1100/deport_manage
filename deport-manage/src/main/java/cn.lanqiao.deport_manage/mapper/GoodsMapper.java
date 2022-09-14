@@ -30,6 +30,10 @@ public interface GoodsMapper {
 
     List<Goods> getGoodsWithUserGoods(@Param("goodsName") String goodsName, @Param("username") String username);
 
-   int updateGNum(@Param("number") int number,@Param("id") int id);
+   int updateGNum(@Param("num") int num,@Param("id") int id);
+
+    int addGNum(@Param("num") int num,@Param("id") int id);
+
+    int getNum(int id);
 
 }

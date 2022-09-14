@@ -1,9 +1,7 @@
 package cn.lanqiao.deport_manage.service.impl;
 
 import cn.lanqiao.deport_manage.entity.Goods;
-import cn.lanqiao.deport_manage.entity.Record;
 import cn.lanqiao.deport_manage.mapper.GoodsMapper;
-import cn.lanqiao.deport_manage.mapper.RecordMapper;
 import cn.lanqiao.deport_manage.service.GoodsService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -18,8 +16,6 @@ public class GoodsServiceImpl implements GoodsService {
     private GoodsMapper goodsMapper;
 
 
-    @Autowired
-    private RecordMapper recordMapper;
 
     @Override
     public List<Goods> getAllGoods() {

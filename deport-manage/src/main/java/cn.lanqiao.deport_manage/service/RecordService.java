@@ -13,7 +13,7 @@ public interface RecordService {
 
     int updateState(Record record);
 
-    int updateRecord(int id,String state);
+    int updateRecord(Record record);
 
     Record select(int id);
 
