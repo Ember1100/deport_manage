@@ -57,7 +57,6 @@ public class RecordServiceImpl implements RecordService {
     @Override
     public int updateRecord(Record record) {
         recordMapper.updateStateById(record.getId(), record.getState());
-        rGoodsMapper.deleteR(record.getGoodsName(), record.getUsername());
         return 1;
 
     }
