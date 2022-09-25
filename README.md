@@ -10,7 +10,8 @@ ssm+vue+iView组件库
 
 #### 安装教程
 下载到本地，idea打开deport_manage安装依赖
-vue: npm install
+vue: npm install  
+     npm run dev
 
 
 #### 使用说明
